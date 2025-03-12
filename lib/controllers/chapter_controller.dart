@@ -1,0 +1,67 @@
+import 'package:get/get.dart';
+import 'package:prime_app/models/chapter_model.dart';
+import 'package:prime_app/models/course_model.dart';
+import 'package:prime_app/models/topic_model.dart';
+import 'package:prime_app/service/firestore_service.dart';
+
+class ChapterController extends GetxController {
+  var chapterList = [].obs;
+  var topicsList = [].obs;
+
+  RxList classList = [
+    {"name": "Class 1", "id": 1},
+    {"name": "Class 2", "id": 2},
+    {"name": "Class 3", "id": 3},
+  ].obs;
+  var isLoading = false.obs;
+  RxBool isTopicLoading = false.obs;
+  late Course selectedCourse;
+  late Chapter selectedChapter;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  void fetchChapter() async {
+    try {
+      isLoading.value = true;
+      final chapters =
+          await FirestoreService().getChaptersArray(selectedCourse.id);
+      print("I am Chapters");
+      if (!chapters.isEmpty) {
+        chapterList.clear();
+        chapterList.assignAll(chapters.map((e) {
+          return Chapter.fromJson(e);
+        }).toList());
+      } else {
+        chapterList.clear();
+      }
+    } catch (e) {
+      print("Error fetching chapters: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void fetchTopics() async {
+    try {
+      isTopicLoading.value = true;
+      final topics = await FirestoreService()
+          .getTopicsArray(selectedCourse.id, selectedChapter.id as String);
+      print(topics);
+      print("I am Topics");
+      if (!topics.isEmpty) {
+        topicsList.clear();
+        topicsList.assignAll(topics.map((e) {
+          print(e);
+          return Topic.fromJson(e);
+        }).toList());
+      }
+    } catch (e) {
+      print("Error fetching Topics: $e");
+    } finally {
+      isTopicLoading(false);
+    }
+  }
+}

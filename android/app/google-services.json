@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "482490413006",
+    "project_id": "prime-app-389d3",
+    "storage_bucket": "prime-app-389d3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482490413006:android:b1f0e8cfb8a97d992f859f",
+        "android_client_info": {
+          "package_name": "com.let.prime_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeLm9DXnu2C_GBN009G--UcHdlo00-xZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
