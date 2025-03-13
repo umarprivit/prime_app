@@ -102,7 +102,10 @@ class TopicsScreen extends StatelessWidget {
                           Get.toNamed(Routes.VIDEO_SCREEN_ROUTE);
                         } else {
                           Get.toNamed(Routes.QUIZ_INSTRUCTION_SCREEN_ROUTE,
-                              arguments: con.topicsList[index].quizId);
+                              arguments: [
+                                con.topicsList[index].id,
+                                con.selectedChapter.id
+                              ]);
                         }
                       },
                       label: con.topicsList[index].topicName as String,

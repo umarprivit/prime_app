@@ -70,7 +70,7 @@ class QuizResultScreen extends StatelessWidget {
                 InstructionBullet(
                     text: "Skipped questions are ${con.skip.value}"),
                 InstructionBullet(
-                    text: "Total questions are ${con.questions.length + 1}"),
+                    text: "Total questions are ${con.questions.length}"),
 
                 const Spacer(), // Push button to the bottom
 

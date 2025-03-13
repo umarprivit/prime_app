@@ -58,8 +58,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildNavItem(
-                  icon: Icons.person_outlined,
-                  label: "My Profile",
+                  icon: Icons.auto_awesome,
+                  label: "Chatbot",
                   index: 0,
                   controller: con,
                 ),
@@ -97,7 +97,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
             onPageChanged: (index) => con.currentIndex.value = index,
             children: [
               // Profile Screen but not implemented because design not provided in figma
-              Center(child: Text("My Profile")),
+              Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Text("Chatbot",
+                  //     style: TextStyle(
+                  //         fontSize: 50,
+
+                  //         color: Colors.amber,
+                  //         fontWeight: FontWeight.bold)),
+                  Image.asset("assets/images/welcome_bot.png"),
+                  Text("Coming Soon!",
+                      style: TextStyle(
+                          fontSize: 50,
+                          fontFamily: Config.FONT_FAMILY,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold)),
+                ],
+              )),
 
               // Home Screen
               Homescreen(),

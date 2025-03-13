@@ -126,7 +126,8 @@ class FirestoreService {
       DocumentSnapshot doc =
           await _firestore.collection('quiz').doc(docId).get();
 
-      return _extractArray(doc, "quiz1");
+      print(doc.data());
+      return _extractArray(doc, quizId);
     } catch (e) {
       print("Error fetching quiz: $e");
       return [];

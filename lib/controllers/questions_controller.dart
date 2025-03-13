@@ -11,6 +11,7 @@ class QuestionsController extends GetxController {
   RxString selectedAnswer = "".obs;
   RxBool isLoading = false.obs;
   RxString quizId = "".obs;
+  String chapterId = "";
 
   final jsson = [];
 
@@ -19,9 +20,11 @@ class QuestionsController extends GetxController {
       if (quizId.value == 'none') {
         return;
       }
+      print(chapterId);
+      print(quizId.value);
       isLoading.value = true;
       final question =
-          await FirestoreService().getQuizArray(quizId.value, "quiz1");
+          await FirestoreService().getQuizArray(chapterId, quizId.value);
       print(question);
       print("I am QUiz");
       if (!question.isEmpty) {
