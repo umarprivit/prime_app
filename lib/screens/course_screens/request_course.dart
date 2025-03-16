@@ -9,147 +9,242 @@ import 'package:prime_app/widgets/appButton.dart';
 import 'package:prime_app/widgets/loading_widget.dart';
 
 class RequestCourse extends StatelessWidget {
-  const RequestCourse({super.key});
+  RequestCourse({super.key}) {}
 
+  DashboardController con = Get.find<DashboardController>();
   @override
   Widget build(BuildContext context) {
-    DashboardController con = Get.find<DashboardController>();
-    return Scaffold(
-      body: Stack(
-        children: [
-          //Gradient Background
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-                stops: [0.31, 1],
-                colors: [
-                  Color.fromRGBO(5, 91, 90, 1),
-                  Color.fromRGBO(7, 172, 171, 1),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            //Gradient Background
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                  stops: [0.31, 1],
+                  colors: [
+                    Color.fromRGBO(5, 91, 90, 1),
+                    Color.fromRGBO(7, 172, 171, 1),
+                  ],
+                ),
               ),
             ),
-          ),
-          // Image
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/bg.png"),
-                fit: BoxFit.cover,
+            // Image
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/bg.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
 
-          Positioned(
-            top: 50,
-            left: 20,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () {
-                Get.back();
-              },
+            Positioned(
+              top: 20,
+              left: 20,
+              child: IconButton(
+                icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
             ),
-          ),
 
-          //Center Widget
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // SizedBox(height: 50),
+            //Center Widget
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // SizedBox(height: 50),
 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                      height: 56,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(left: 39, right: 39),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            backgroundColor: Colors.white),
-                        onPressed: () async {
-                          Get.snackbar(
-                              "Demo not available", "Demo not available",
-                              snackPosition: SnackPosition.TOP,
-                              backgroundColor: Colors.white);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.vpn_key_rounded,
-                              color: Theme.of(context).primaryColor,
-                              size: 30,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "Watch Demo",
-                              style: TextStyle(
-                                  fontFamily: Config.FONT_FAMILY,
-                                  fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 17),
-                            ),
-                          ],
-                        ),
-                      )),
-                  SizedBox(height: 20),
-                  Container(
-                      height: 56,
-                      width: double.infinity,
-                      margin: EdgeInsets.only(left: 39, right: 39),
-                      child: ElevatedButton(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(height: 50),
+                    Container(
+                        height: 56,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(left: 39, right: 39),
+                        child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(7),
                               ),
                               backgroundColor: Colors.white),
                           onPressed: () async {
-                            await con.requestCourse();
+                            Get.snackbar(
+                                "Demo not available", "Demo not available",
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.white);
                           },
-                          child: Obx(
-                            () => con.isLoading.value
-                                ? BarLoading(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.vpn_key_rounded,
+                                color: Theme.of(context).primaryColor,
+                                size: 30,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                "Watch Demo",
+                                style: TextStyle(
+                                    fontFamily: Config.FONT_FAMILY,
+                                    fontWeight: FontWeight.w700,
                                     color: Theme.of(context).primaryColor,
-                                    barHeight: 4,
-                                    barWidth: 6,
-                                  )
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.vpn_key_sharp,
-                                          color: Colors.amber, size: 30),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        "Go Premium",
-                                        style: TextStyle(
-                                            fontFamily: Config.FONT_FAMILY,
-                                            fontWeight: FontWeight.w700,
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            fontSize: 17),
-                                      ),
-                                    ],
-                                  ),
-                          ))),
-                ],
+                                    fontSize: 17),
+                              ),
+                            ],
+                          ),
+                        )),
+                    SizedBox(height: 20),
+                    Container(
+                        height: 56,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(left: 39, right: 39),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                backgroundColor: Colors.white),
+                            onPressed: () async {
+                              infoGatheringBottomSheet(context);
+                            },
+                            child: Obx(
+                              () => con.isLoading.value
+                                  ? BarLoading(
+                                      color: Theme.of(context).primaryColor,
+                                      barHeight: 4,
+                                      barWidth: 6,
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.vpn_key_sharp,
+                                            color: Colors.amber, size: 30),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          "Go Premium",
+                                          style: TextStyle(
+                                              fontFamily: Config.FONT_FAMILY,
+                                              fontWeight: FontWeight.w700,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontSize: 17),
+                                        ),
+                                      ],
+                                    ),
+                            ))),
+                  ],
+                ),
+                SizedBox(height: 20),
+                //Bottom Image
+                Container(
+                  margin: EdgeInsets.only(top: 32),
+                  child: Image.asset(
+                    "assets/images/request_robot.png",
+                    scale: 1.8,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void infoGatheringBottomSheet(BuildContext context) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        // height: 400,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                "Add Topic",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: Config.FONT_FAMILY,
+                ),
               ),
-              SizedBox(height: 20),
-              //Bottom Image
-              Container(
-                margin: EdgeInsets.only(top: 32),
-                child: Image.asset(
-                  "assets/images/request_robot.png",
-                  scale: 1.8,
+              const SizedBox(height: 20),
+              _buildTextField(con.nameController, "Name"),
+              const SizedBox(height: 20),
+              _buildTextField(con.phoneNumberController, "Phone Number"),
+              const SizedBox(height: 20),
+              _buildTextField(con.cityController, "City"),
+              const SizedBox(height: 20),
+              _buildTextField(con.DOBController, "Date of Birth"),
+              const SizedBox(height: 20),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(150, 45),
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () async {
+                    if (con.nameController.text.isNotEmpty &&
+                        con.phoneNumberController.text.isNotEmpty) {
+                      Get.back();
+                      con.requestCourse();
+                    } else {
+                      Get.snackbar("Error", "Please fill all the fields",
+                          backgroundColor: Colors.red);
+                    }
+                  },
+                  child: Text(
+                    "Send",
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: Config.FONT_FAMILY,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String hint) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(12),
+          hintText: hint,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
     );
   }

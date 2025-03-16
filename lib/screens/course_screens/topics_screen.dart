@@ -55,13 +55,17 @@ class TopicsScreen extends StatelessWidget {
                   const SizedBox(width: 30),
                   const Icon(Icons.article_rounded, color: Colors.white),
                   const SizedBox(width: 40),
-                  Text(
-                    "${con.selectedChapter.chapterName}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: Config.FONT_FAMILY,
-                      color: Colors.white,
-                      fontSize: 19,
+                  Expanded(
+                    child: Text(
+                      "${con.selectedChapter.chapterName}",
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontFamily: Config.FONT_FAMILY,
+                        color: Colors.white,
+                        fontSize: 19,
+                      ),
                     ),
                   ),
                 ],

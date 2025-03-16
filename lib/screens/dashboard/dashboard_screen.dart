@@ -33,98 +33,100 @@ class _DashboardScreenState extends State<DashboardScreen> {
     DashboardController con = Get.find<DashboardController>();
     CarouselSliderController carouselController = CarouselSliderController();
 
-    return Scaffold(
-        // App Bar
-        appBar: CustomAppBar(),
-
-        // App Drawer
-        drawer: AppDrawer(),
-
-        // Bottom Navigation Bar
-        bottomNavigationBar: Container(
-          height: 98,
-          decoration: BoxDecoration(
-            color: Color.fromRGBO(255, 255, 255, 0.63),
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.2),
-                offset: Offset(0, -3),
-                blurRadius: 10,
-              ),
-            ],
-          ),
-          child: Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem(
-                  icon: Icons.auto_awesome,
-                  label: "Chatbot",
-                  index: 0,
-                  controller: con,
-                ),
-                _buildNavItem(
-                  icon: con.currentIndex.value == 1
-                      ? Icons.home_filled
-                      : Icons.home_outlined,
-                  label: "Home",
-                  index: 1,
-                  controller: con,
-                ),
-                _buildNavItem(
-                  icon: con.currentIndex.value == 2
-                      ? Icons.library_books
-                      : Icons.library_books_outlined,
-                  label: "Library",
-                  index: 2,
-                  controller: con,
+    return SafeArea(
+      child: Scaffold(
+          // App Bar
+          appBar: CustomAppBar(),
+      
+          // App Drawer
+          drawer: AppDrawer(),
+      
+          // Bottom Navigation Bar
+          bottomNavigationBar: Container(
+            height: 98,
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(255, 255, 255, 0.63),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.2),
+                  offset: Offset(0, -3),
+                  blurRadius: 10,
                 ),
               ],
             ),
-          ),
-        ),
-
-        //Body
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/bg.png'),
-              fit: BoxFit.cover,
+            child: Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildNavItem(
+                    icon: Icons.auto_awesome,
+                    label: "Chatbot",
+                    index: 0,
+                    controller: con,
+                  ),
+                  _buildNavItem(
+                    icon: con.currentIndex.value == 1
+                        ? Icons.home_filled
+                        : Icons.home_outlined,
+                    label: "Home",
+                    index: 1,
+                    controller: con,
+                  ),
+                  _buildNavItem(
+                    icon: con.currentIndex.value == 2
+                        ? Icons.library_books
+                        : Icons.library_books_outlined,
+                    label: "Library",
+                    index: 2,
+                    controller: con,
+                  ),
+                ],
+              ),
             ),
           ),
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (index) => con.currentIndex.value = index,
-            children: [
-              // Profile Screen but not implemented because design not provided in figma
-              Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Text("Chatbot",
-                  //     style: TextStyle(
-                  //         fontSize: 50,
-
-                  //         color: Colors.amber,
-                  //         fontWeight: FontWeight.bold)),
-                  Image.asset("assets/images/welcome_bot.png"),
-                  Text("Coming Soon!",
-                      style: TextStyle(
-                          fontSize: 50,
-                          fontFamily: Config.FONT_FAMILY,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold)),
-                ],
-              )),
-
-              // Home Screen
-              Homescreen(),
-
-              // Library Screen
-              LibraryScreen(),
-            ],
-          ),
-        ));
+      
+          //Body
+          body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/bg.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) => con.currentIndex.value = index,
+              children: [
+                // Profile Screen but not implemented because design not provided in figma
+                Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Text("Chatbot",
+                    //     style: TextStyle(
+                    //         fontSize: 50,
+      
+                    //         color: Colors.amber,
+                    //         fontWeight: FontWeight.bold)),
+                    Image.asset("assets/images/welcome_bot.png"),
+                    Text("Coming Soon!",
+                        style: TextStyle(
+                            fontSize: 50,
+                            fontFamily: Config.FONT_FAMILY,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                )),
+      
+                // Home Screen
+                Homescreen(),
+      
+                // Library Screen
+                LibraryScreen(),
+              ],
+            ),
+          )),
+    );
   }
 
   Widget _buildNavItem({

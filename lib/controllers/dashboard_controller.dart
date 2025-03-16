@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prime_app/models/course_model.dart';
 import 'package:prime_app/service/firestore_service.dart';
+import 'package:prime_app/service/notification_service.dart';
 import 'package:prime_app/service/shared_preferences.dart';
 
 class DashboardController extends GetxController {
@@ -13,6 +14,10 @@ class DashboardController extends GetxController {
   RxList enrolledCourses = [].obs;
   List<Course> courses = [];
   late Rx<Course> selectedSkill = Course(courseName: '', id: '').obs;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController DOBController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController phoneNumberController = TextEditingController();
   final fs = FirestoreService();
 
   Future<void> requestCourse() async {
@@ -21,12 +26,18 @@ class DashboardController extends GetxController {
       if (selectedSkill.value.id.isEmpty) {
         return;
       }
+      String? token = await NotificationService().getToken();
       await FirestoreService().addOrUpdateArrayField(
           fieldKey: await "${SharedPrefService().getDeviceId()}",
           newValues: [
             {
               "id": selectedSkill.value.id,
-              "name": selectedSkill.value.courseName
+              "name": selectedSkill.value.courseName,
+              "token": token,
+              "userName": nameController.text,
+              "dob": DOBController.text,
+              "city": cityController.text,
+              "phoneNumber": phoneNumberController.text
             }
           ]);
       Get.back();

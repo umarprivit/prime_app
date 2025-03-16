@@ -10,8 +10,9 @@ class CourseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+
+      // wrap with the widget that it takes the place that is required
       child: SizedBox(
-        width: 85,
         child: Column(
           children: [
             Container(
@@ -31,16 +32,21 @@ class CourseWidget extends StatelessWidget {
                     )),
               ),
             ),
-            Text(label,
-                maxLines: 3,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Config.GREY_COLOR,
-                  fontFamily: Config.FONT_FAMILY,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                )),
+            Expanded(
+              child: Container(
+                width: 85,
+                child: Text(label,
+                    maxLines: 3,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Config.GREY_COLOR,
+                      fontFamily: Config.FONT_FAMILY,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    )),
+              ),
+            ),
           ],
         ),
       ),
