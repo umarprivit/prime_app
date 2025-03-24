@@ -1,0 +1,1 @@
+/home/umer/side_projects/prime_app/build/app/intermediates/cxx/Debug/3d1j3422/obj/x86_64
