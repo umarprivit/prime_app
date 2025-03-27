@@ -36,7 +36,7 @@ class SharedPrefService {
 
   bool getIsLoggedIn() => _prefs?.getBool(_isLoggedInKey) ?? false;
 
-  String? getDeviceId() => _prefs?.getString(_deviceIdKey);
+  String? getDeviceId() => _prefs?.getString(_deviceIdKey) ?? "";
 
   // Clear all stored data (optional utility method)
   Future<void> clearAll() async {

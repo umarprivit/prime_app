@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prime_app/controllers/loginScreen_controller.dart';
+import 'package:prime_app/routes.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -35,13 +36,13 @@ class AppDrawer extends StatelessWidget {
             child: ListView(
               children: [
                 _buildDrawerItem(Icons.person_outline, "My Profile", () {}),
-                _buildDrawerItem(Icons.extension, "Quiz", () {}),
+                _buildDrawerItem(Icons.extension, "MCQs", () {
+                  Get.toNamed(Routes.MCQS_SUBJECT_SCREEN_ROUTE);
+                }),
                 _buildDrawerItem(Icons.download_rounded, "Downloads", () {}),
                 _buildDrawerItem(
                     Icons.bug_report_outlined, "Report Bugs", () {}),
                 _buildDrawerItem(Icons.help_outline, "Ask a question", () {}),
-                _buildDrawerItem(
-                    Icons.brightness_6, "Dark / Light mode", () {}),
                 _buildDrawerItem(Icons.logout, "Logout", () {
                   con.logoutAsGuest();
                 }),

@@ -13,6 +13,10 @@ class DashboardController extends GetxController {
   RxBool isHomeLoading = false.obs;
   RxList enrolledCourses = [].obs;
   List<Course> courses = [];
+  List carouselImages = [
+    "assets/images/carousel_image.png",
+    "assets/images/carousel_image.png",
+  ];
   late Rx<Course> selectedSkill = Course(courseName: '', id: '').obs;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController DOBController = TextEditingController();

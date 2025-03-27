@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:prime_app/apptheme.dart';
 import 'package:prime_app/routes.dart';
 import 'package:prime_app/screens/starting_screens/splash_screen.dart';
-import 'package:prime_app/service/notification_service.dart';
+import 'package:prime_app/service/firestore_service.dart';
 import 'package:prime_app/service/shared_preferences.dart';
 
 Future<void> main() async {
@@ -16,6 +15,11 @@ Future<void> main() async {
   await dataEntry();
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   FirebaseMessaging.instance.subscribeToTopic("all");
+  String? deviceId = await SharedPrefService().getDeviceId();
+  if (!(deviceId!.isEmpty)) {
+    print("Trying to delete expire courses registerd on this device with device id $deviceId");
+    await FirestoreService().isExpired(deviceId: deviceId);
+  }
 
   await SharedPrefService.init();
   runApp(GetMaterialApp(
@@ -35,109 +39,112 @@ Future<void> _backgroundMessageHandler(RemoteMessage message) async {
 
 Map<int, List<Map<String, dynamic>>> mcqsByPage = {
   5: [
-  {
-    "question": "Rasheed said, 'What a fantastic performance!'",
-    "options": [
-      "Rasheed exclaimed what a fantastic performance it was.",
-      "Rasheed exclaimed how fantastic the performance was.",
-      "Rasheed said that it was a fantastic performance.",
-      "Rasheed exclaimed that it was a fantastic performance."
-    ],
-    "answer": "Rasheed exclaimed what a fantastic performance it was."
-  },
-  {
-    "question": "The teacher exclaimed, 'How well you have done on the test, Rasheed!'",
-    "options": [
-      "The teacher exclaimed how well Rasheed has done on the test.",
-      "The teacher exclaimed that Rasheed had done well on the test.",
-      "The teacher exclaimed how well Rasheed had done on the test.",
-      "The teacher exclaimed how well Rasheed does on the test."
-    ],
-    "answer": "The teacher exclaimed how well Rasheed had done on the test."
-  },
-  {
-    "question": "Rasheed said, 'What a beautiful garden this is!'",
-    "options": [
-      "Rasheed said that it was a beautiful garden.",
-      "Rasheed exclaimed that it was a beautiful garden.",
-      "Rasheed exclaimed what a beautiful garden it was.",
-      "Rasheed said what a beautiful garden this is."
-    ],
-    "answer": "Rasheed exclaimed what a beautiful garden it was."
-  },
-  {
-    "question": "The teacher said, 'How smartly Rasheed answers the questions!'",
-    "options": [
-      "The teacher exclaimed how smartly Rasheed answers the questions.",
-      "The teacher exclaimed how smartly Rasheed answered the questions.",
-      "The teacher said that Rasheed answers the questions smartly.",
-      "The teacher said that Rasheed answered the questions smartly."
-    ],
-    "answer": "The teacher exclaimed how smartly Rasheed answered the questions."
-  },
-  {
-    "question": "Rasheed exclaimed, 'How exciting this adventure is!'",
-    "options": [
-      "Rasheed exclaimed that this adventure was exciting.",
-      "Rasheed exclaimed how exciting this adventure is.",
-      "Rasheed exclaimed how exciting that adventure was.",
-      "Rasheed exclaimed how exciting this adventure was."
-    ],
-    "answer": "Rasheed exclaimed how exciting this adventure was."
-  },
-  {
-    "question": "The teacher said, 'What a talented student Rasheed is!'",
-    "options": [
-      "The teacher exclaimed that Rasheed was a talented student.",
-      "The teacher said what a talented student Rasheed is.",
-      "The teacher exclaimed that Rasheed is a talented student.",
-      "The teacher exclaimed what a talented student Rasheed was."
-    ],
-    "answer": "The teacher exclaimed that Rasheed is a talented student."
-  },
-  {
-    "question": "Rasheed said, 'How amazing the view is from here!'",
-    "options": [
-      "Rasheed said how amazing the view was from there.",
-      "Rasheed exclaimed how amazing the view is from there.",
-      "Rasheed exclaimed how amazing the view was from here.",
-      "Rasheed said how amazing the view is from here."
-    ],
-    "answer": "Rasheed exclaimed how amazing the view was from here."
-  },
-  {
-    "question": "The teacher said, 'What a great effort Rasheed has made!'",
-    "options": [
-      "The teacher exclaimed that Rasheed made a great effort.",
-      "The teacher said that Rasheed had made a great effort.",
-      "The teacher exclaimed what a great effort Rasheed had made.",
-      "The teacher exclaimed what a great effort Rasheed has made."
-    ],
-    "answer": "The teacher exclaimed what a great effort Rasheed had made."
-  },
-  {
-    "question": "Rasheed exclaimed, 'What a wonderful opportunity this is!'",
-    "options": [
-      "Rasheed exclaimed that it was a wonderful opportunity.",
-      "Rasheed exclaimed what a wonderful opportunity it is.",
-      "Rasheed exclaimed what a wonderful opportunity it was.",
-      "Rasheed said that it was a wonderful opportunity."
-    ],
-    "answer": "Rasheed exclaimed what a wonderful opportunity it was."
-  },
-  {
-    "question": "The teacher exclaimed, 'How well Rasheed performed in the competition!'",
-    "options": [
-      "The teacher exclaimed how well Rasheed performed in the competition.",
-      "The teacher said that Rasheed had performed well in the competition.",
-      "The teacher exclaimed that Rasheed performed well in the competition.",
-      "The teacher exclaimed how well Rasheed had performed in the competition."
-    ],
-    "answer": "The teacher exclaimed how well Rasheed had performed in the competition."
-  }
-]
-
-,
+    {
+      "question": "Rasheed said, 'What a fantastic performance!'",
+      "options": [
+        "Rasheed exclaimed what a fantastic performance it was.",
+        "Rasheed exclaimed how fantastic the performance was.",
+        "Rasheed said that it was a fantastic performance.",
+        "Rasheed exclaimed that it was a fantastic performance."
+      ],
+      "answer": "Rasheed exclaimed what a fantastic performance it was."
+    },
+    {
+      "question":
+          "The teacher exclaimed, 'How well you have done on the test, Rasheed!'",
+      "options": [
+        "The teacher exclaimed how well Rasheed has done on the test.",
+        "The teacher exclaimed that Rasheed had done well on the test.",
+        "The teacher exclaimed how well Rasheed had done on the test.",
+        "The teacher exclaimed how well Rasheed does on the test."
+      ],
+      "answer": "The teacher exclaimed how well Rasheed had done on the test."
+    },
+    {
+      "question": "Rasheed said, 'What a beautiful garden this is!'",
+      "options": [
+        "Rasheed said that it was a beautiful garden.",
+        "Rasheed exclaimed that it was a beautiful garden.",
+        "Rasheed exclaimed what a beautiful garden it was.",
+        "Rasheed said what a beautiful garden this is."
+      ],
+      "answer": "Rasheed exclaimed what a beautiful garden it was."
+    },
+    {
+      "question":
+          "The teacher said, 'How smartly Rasheed answers the questions!'",
+      "options": [
+        "The teacher exclaimed how smartly Rasheed answers the questions.",
+        "The teacher exclaimed how smartly Rasheed answered the questions.",
+        "The teacher said that Rasheed answers the questions smartly.",
+        "The teacher said that Rasheed answered the questions smartly."
+      ],
+      "answer":
+          "The teacher exclaimed how smartly Rasheed answered the questions."
+    },
+    {
+      "question": "Rasheed exclaimed, 'How exciting this adventure is!'",
+      "options": [
+        "Rasheed exclaimed that this adventure was exciting.",
+        "Rasheed exclaimed how exciting this adventure is.",
+        "Rasheed exclaimed how exciting that adventure was.",
+        "Rasheed exclaimed how exciting this adventure was."
+      ],
+      "answer": "Rasheed exclaimed how exciting this adventure was."
+    },
+    {
+      "question": "The teacher said, 'What a talented student Rasheed is!'",
+      "options": [
+        "The teacher exclaimed that Rasheed was a talented student.",
+        "The teacher said what a talented student Rasheed is.",
+        "The teacher exclaimed that Rasheed is a talented student.",
+        "The teacher exclaimed what a talented student Rasheed was."
+      ],
+      "answer": "The teacher exclaimed that Rasheed is a talented student."
+    },
+    {
+      "question": "Rasheed said, 'How amazing the view is from here!'",
+      "options": [
+        "Rasheed said how amazing the view was from there.",
+        "Rasheed exclaimed how amazing the view is from there.",
+        "Rasheed exclaimed how amazing the view was from here.",
+        "Rasheed said how amazing the view is from here."
+      ],
+      "answer": "Rasheed exclaimed how amazing the view was from here."
+    },
+    {
+      "question": "The teacher said, 'What a great effort Rasheed has made!'",
+      "options": [
+        "The teacher exclaimed that Rasheed made a great effort.",
+        "The teacher said that Rasheed had made a great effort.",
+        "The teacher exclaimed what a great effort Rasheed had made.",
+        "The teacher exclaimed what a great effort Rasheed has made."
+      ],
+      "answer": "The teacher exclaimed what a great effort Rasheed had made."
+    },
+    {
+      "question": "Rasheed exclaimed, 'What a wonderful opportunity this is!'",
+      "options": [
+        "Rasheed exclaimed that it was a wonderful opportunity.",
+        "Rasheed exclaimed what a wonderful opportunity it is.",
+        "Rasheed exclaimed what a wonderful opportunity it was.",
+        "Rasheed said that it was a wonderful opportunity."
+      ],
+      "answer": "Rasheed exclaimed what a wonderful opportunity it was."
+    },
+    {
+      "question":
+          "The teacher exclaimed, 'How well Rasheed performed in the competition!'",
+      "options": [
+        "The teacher exclaimed how well Rasheed performed in the competition.",
+        "The teacher said that Rasheed had performed well in the competition.",
+        "The teacher exclaimed that Rasheed performed well in the competition.",
+        "The teacher exclaimed how well Rasheed had performed in the competition."
+      ],
+      "answer":
+          "The teacher exclaimed how well Rasheed had performed in the competition."
+    }
+  ],
 //   4: [
 //   {
 //     "question": "She said, \"What a beautiful day it is!\"",
@@ -340,7 +347,6 @@ Map<int, List<Map<String, dynamic>>> mcqsByPage = {
 //     "answer": "They exclaimed what a lovely morning it was."
 //   }
 // ]
-
 };
 
 Future<void> dataEntry() async {

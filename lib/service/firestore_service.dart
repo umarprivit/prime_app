@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class FirestoreService {
   // Singleton instance
@@ -39,14 +40,16 @@ class FirestoreService {
         // Check if the transformed deviceId exists in the document
         if (data.containsKey(formattedDeviceId) &&
             data[formattedDeviceId] is List) {
-          return List<dynamic>.from(
-              data[formattedDeviceId]); // Return the array
+          print("here it is okay");
+          return List<dynamic>.from(data[formattedDeviceId].map((e) {
+            return e['course_id'];
+          }));
         }
       }
 
       return []; // Return empty list if deviceId not found or data is invalid
     } catch (e) {
-      print("Error fetching courses: $e");
+      print("Error fetching coursess: $e");
       return []; // Return empty list on error
     }
   }
@@ -143,5 +146,92 @@ class FirestoreService {
       }
     }
     return [];
+  }
+
+  Future<void> isExpired({required String deviceId}) async {
+    String formattedDeviceId = deviceId.replaceAll('.', '_');
+    try {
+      DocumentReference permissionsRef =
+          _firestore.collection("prime_essentials").doc("permissions");
+
+      DocumentSnapshot permissionsDoc = await permissionsRef.get();
+
+      if (permissionsDoc.exists && permissionsDoc.data() != null) {
+        Map<String, dynamic> permissionsData =
+            permissionsDoc.data() as Map<String, dynamic>;
+
+        if (permissionsData.containsKey(formattedDeviceId) &&
+            permissionsData[formattedDeviceId] is List) {
+          List<dynamic> courses = List.from(permissionsData[formattedDeviceId]);
+
+          // Get today's date
+          DateTime today = DateTime.now();
+
+          // Remove expired courses
+          courses.removeWhere((course) {
+            String expiryString = course["expiry"];
+            try {
+              DateTime expiryDate = DateFormat("dd-MM-yy").parse(expiryString);
+              return expiryDate.isBefore(today); // Remove if expired
+            } catch (e) {
+              print("Invalid date format: $expiryString");
+              return false;
+            }
+          });
+
+          if (courses.isEmpty) {
+            // If no courses remain, delete the deviceId entry
+            await permissionsRef
+                .update({formattedDeviceId: FieldValue.delete()});
+          } else {
+            // Update Firestore with remaining courses
+            await permissionsRef.update({formattedDeviceId: courses});
+          }
+
+          print("Expired courses removed successfully.");
+        } else {
+          print("No courses found for device ID: $formattedDeviceId.");
+        }
+      } else {
+        print("Permissions document does not exist.");
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  Future<List<String>> getAllDocumentNames(String collectionName) async {
+    try {
+      CollectionReference collection =
+          FirebaseFirestore.instance.collection(collectionName);
+      QuerySnapshot snapshot = await collection.get();
+
+      // Extract document IDs (names)
+      List<String> documentNames = snapshot.docs.map((doc) => doc.id).toList();
+
+      return documentNames;
+    } catch (e) {
+      print("Error fetching documents: $e");
+      return [];
+    }
+  }
+
+  Future<dynamic> getFieldFromDocument(
+      String collectionName, String documentName, String fieldName) async {
+    try {
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+          .collection(collectionName)
+          .doc(documentName)
+          .get(const GetOptions(source: Source.server));
+
+      if (docSnapshot.exists) {
+        return docSnapshot.get(fieldName);
+      } else {
+        return null; // Document doesn't exist
+      }
+    } catch (e) {
+      print("Error fetching field: $e");
+      return null;
+    }
   }
 }

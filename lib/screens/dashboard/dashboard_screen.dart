@@ -6,11 +6,9 @@ import 'package:get/get.dart';
 import 'package:prime_app/config/config.dart';
 import 'package:prime_app/controllers/dashboard_controller.dart';
 import 'package:prime_app/screens/dashboard/homeScreen.dart';
-import 'package:prime_app/screens/dashboard/course_widget.dart';
 import 'package:prime_app/screens/dashboard/library_screen.dart';
 import 'package:prime_app/widgets/app_drawer.dart';
 import 'package:prime_app/widgets/dashboard_widgets/custom_appBar.dart';
-import 'package:prime_app/widgets/dashboard_widgets/library_container.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -37,10 +35,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Scaffold(
           // App Bar
           appBar: CustomAppBar(),
-      
+
           // App Drawer
           drawer: AppDrawer(),
-      
+
           // Bottom Navigation Bar
           bottomNavigationBar: Container(
             height: 98,
@@ -84,7 +82,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-      
+
           //Body
           body: Container(
             decoration: BoxDecoration(
@@ -105,7 +103,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     // Text("Chatbot",
                     //     style: TextStyle(
                     //         fontSize: 50,
-      
+
                     //         color: Colors.amber,
                     //         fontWeight: FontWeight.bold)),
                     Image.asset("assets/images/welcome_bot.png"),
@@ -117,10 +115,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             fontWeight: FontWeight.bold)),
                   ],
                 )),
-      
+
                 // Home Screen
                 Homescreen(),
-      
+
                 // Library Screen
                 LibraryScreen(),
               ],

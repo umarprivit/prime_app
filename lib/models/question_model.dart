@@ -13,7 +13,7 @@ class QuizQuestion {
   factory QuizQuestion.fromMap(Map<String, dynamic> map) {
     return QuizQuestion(
       question: map['question'],
-      correct: map['correct'],
+      correct: map['correct'] ?? map['answer'] ?? "",
       options: List<String>.from(map['options']),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prime_app/screens/course_screens/chapter_screen.dart';
 import 'package:prime_app/screens/course_screens/quiz_note_screen.dart';
@@ -8,6 +9,8 @@ import 'package:prime_app/screens/course_screens/topics_screen.dart';
 import 'package:prime_app/screens/course_screens/video_screen.dart';
 import 'package:prime_app/screens/dashboard/homeScreen.dart';
 import 'package:prime_app/screens/dashboard/dashboard_screen.dart';
+import 'package:prime_app/screens/dashboard/mcqs_list_screen.dart';
+import 'package:prime_app/screens/dashboard/mcqs_subject_screen.dart';
 import 'package:prime_app/screens/starting_screens/banners_screen.dart';
 import 'package:prime_app/screens/starting_screens/intro_screen.dart';
 import 'package:prime_app/screens/starting_screens/login_screen.dart';
@@ -68,6 +71,14 @@ class AppRoutes {
       name: Routes.REQUEST_COURSE_SCREEN_ROUTE,
       page: () => RequestCourse(),
     ),
+    GetPage(
+      name: Routes.MCQS_SUBJECT_SCREEN_ROUTE,
+      page: () => McqsSubjectScreen(),
+    ),
+    GetPage(
+      name: Routes.MCQS_SCREEN_ROUTE,
+      page: () => McqsListScreen(),
+    ),
   ];
 }
 
@@ -85,6 +96,8 @@ class Routes {
   static String QUIZ_INSTRUCTION_SCREEN_ROUTE = '/quiz_instruction_screen';
   static String QUIZ_RESULT_SCREEN_ROUTE = '/quiz_result_screen';
   static String REQUEST_COURSE_SCREEN_ROUTE = '/course_request_screen';
+  static String MCQS_SUBJECT_SCREEN_ROUTE = '/mcqs_subject_screen';
+  static String MCQS_SCREEN_ROUTE = '/mcqs_screen';
 }
 
 class Endpoints {}

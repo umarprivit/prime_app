@@ -1,0 +1,2 @@
+/home/umer/side_projects/prime_app/android/app/.cxx/Debug/6o133w2s/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/umer/side_projects/prime_app/android/app/.cxx/Debug/6o133w2s/armeabi-v7a/CMakeFiles/rebuild_cache.dir
