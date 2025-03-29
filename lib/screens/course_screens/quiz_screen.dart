@@ -49,7 +49,7 @@ class _QuizScreenState extends State<QuizScreen> {
           backgroundColor: Color.fromRGBO(255, 255, 255, 0.055),
           centerTitle: true,
           title: Text(
-            "Intro to Biology",
+            "QUIZ",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Config.GREY_COLOR,

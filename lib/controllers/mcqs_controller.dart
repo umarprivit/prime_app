@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:prime_app/controllers/chapter_controller.dart';
 import 'package:prime_app/models/question_model.dart';
 import 'package:prime_app/service/firestore_service.dart';
 
@@ -9,6 +10,7 @@ class McqsController extends GetxController {
   RxBool isSubjectLoading = false.obs;
   RxBool isMcqsLoading = false.obs;
   RxInt selectedPageNumber = 1.obs;
+  final ChapterController chapterController = Get.find<ChapterController>();
 
   Future<void> getSubjectNames() async {
     try {
@@ -37,6 +39,9 @@ class McqsController extends GetxController {
 
   Future<void> getAllMcqs() async {
     try {
+      if (chapterController.selectedMcqsTopic.value.isNotEmpty) {
+        selectedSubject.value = chapterController.selectedMcqsTopic.value;
+      }
       isMcqsLoading.value = true;
       final data = await FirestoreService().getFieldFromDocument(
         'mcqs',

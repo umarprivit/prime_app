@@ -57,7 +57,7 @@ class TopicsScreen extends StatelessWidget {
                   const SizedBox(width: 40),
                   Expanded(
                     child: Text(
-                      "${con.selectedChapter.chapterName}",
+                      "${con.selectedChapter.chapterName}".capitalizeFirst!,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -93,18 +93,21 @@ class TopicsScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return LibraryContainer(
                       onTap: () {
+                        con.selectedTopicId.value = con.topicsList[index].id;
                         if (con1.isLearnSelected.value) {
                           if (con.topicsList[index].link == "none") {
                             Get.snackbar("No Video Available",
                                 "Please try another topic");
                             return;
                           }
+
                           final vidCon = Get.put(VideoController());
                           vidCon.topicName.value =
                               con.topicsList[index].topicName;
                           vidCon.videoUrl.value = con.topicsList[index].link;
                           Get.toNamed(Routes.VIDEO_SCREEN_ROUTE);
                         } else {
+                          
                           Get.toNamed(Routes.QUIZ_INSTRUCTION_SCREEN_ROUTE,
                               arguments: [
                                 con.topicsList[index].id,

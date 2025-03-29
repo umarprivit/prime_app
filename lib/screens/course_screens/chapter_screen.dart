@@ -100,6 +100,11 @@ class ChapterScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return LibraryContainer(
                         onTap: () {
+                          if (con.chapterList[index].chapterName == "MCQS") {
+                            con.selectedChapter = con.chapterList[index];
+                            Get.toNamed(Routes.MCQS_SCREEN_ROUTE);
+                            return;
+                          }
                           con.selectedChapter = con.chapterList[index];
                           Get.toNamed(Routes.TOPICS_SCREEN_ROUTE);
                         },

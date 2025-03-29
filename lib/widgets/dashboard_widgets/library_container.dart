@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:prime_app/config/config.dart';
 
 class LibraryContainer extends StatelessWidget {
@@ -22,7 +23,9 @@ class LibraryContainer extends StatelessWidget {
             EdgeInsets.symmetric(vertical: 15, horizontal: 20), // Added padding
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: const Color.fromRGBO(0, 0, 0, 0.085),
+          color: label == "MCQS"
+              ? Theme.of(context).primaryColor
+              : Color.fromRGBO(0, 0, 0, 0.085),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,23 +33,25 @@ class LibraryContainer extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(right: 20), // Adjust spacing
               child: Text(
-                "${label[0]}",
+                label[0].capitalizeFirst!,
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   fontFamily: Config.FONT_FAMILY,
-                  color: Theme.of(context).primaryColor,
+                  color: label == "MCQS"
+                      ? Colors.white
+                      : Theme.of(context).primaryColor,
                 ),
               ),
             ),
             Expanded(
               child: Text(
-                label,
+                label == "MCQS" ? "MCQS" : label.capitalizeFirst!,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontFamily: Config.FONT_FAMILY,
-                  color: Config.GREY_COLOR,
+                  color: label == "MCQS" ? Colors.white : Config.GREY_COLOR,
                   fontSize: 19,
                 ),
               ),

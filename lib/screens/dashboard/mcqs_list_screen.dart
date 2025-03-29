@@ -6,7 +6,7 @@ import 'package:prime_app/widgets/dashboard_widgets/mcqslist_skelton.dart';
 
 class McqsListScreen extends StatelessWidget {
   McqsListScreen({super.key});
-  final McqsController con = Get.find<McqsController>();
+  final McqsController con = Get.put(McqsController());
 
   @override
   Widget build(BuildContext context) {

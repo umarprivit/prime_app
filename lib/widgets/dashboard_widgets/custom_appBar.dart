@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prime_app/config/config.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -7,6 +8,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       shadowColor: Colors.grey[200],
       backgroundColor: Colors.white,
       elevation: 2,
+      centerTitle: true,
       titleSpacing: 10,
       leading: IconButton(
         icon: Icon(Icons.menu, color: Colors.teal, size: 31),
@@ -16,28 +18,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Scaffold.of(context).openDrawer();
         },
       ),
-      title: Container(
-        height: 45,
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(25),
-        ),
-        child: Row(
-          children: [
-            SizedBox(width: 10),
-            Icon(Icons.search, color: Colors.teal),
-            SizedBox(width: 8),
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      title: Text("Welcome Back!",
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
+            fontFamily: Config.FONT_FAMILY,
+          )),
       actions: [
         IconButton(
           icon: Icon(Icons.account_circle, color: Colors.teal, size: 36),

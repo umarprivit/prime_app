@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:prime_app/config/config.dart';
 import 'package:prime_app/controllers/chapter_controller.dart';
 import 'package:prime_app/controllers/video_controller.dart';
+import 'package:prime_app/routes.dart';
 import 'package:prime_app/widgets/dashboard_widgets/library_container.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -48,11 +49,13 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
                   Get.back();
                 },
               ),
-              title: Text(
-                con.topicName.value,
-                style: TextStyle(
-                  fontFamily: Config.FONT_FAMILY,
-                  fontWeight: FontWeight.w500,
+              title: Obx(
+                () => Text(
+                  con.topicName.value,
+                  style: TextStyle(
+                    fontFamily: Config.FONT_FAMILY,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
@@ -153,9 +156,16 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
                       ),
                       backgroundColor: Theme.of(context).primaryColor,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      con.playerController.pause();
+                      Get.toNamed(Routes.QUIZ_INSTRUCTION_SCREEN_ROUTE,
+                          arguments: [
+                            con1.selectedTopicId.value,
+                            con1.selectedChapter.id
+                          ]);
+                    },
                     child: const Text(
-                      "Notes",
+                      "Attempt Quiz",
                       style: TextStyle(
                         fontFamily: Config.FONT_FAMILY,
                         fontWeight: FontWeight.w500,
@@ -167,10 +177,18 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
               ),
             ],
           ),
-          ...con1.classList.map((e) {
+          ...con1.topicsList.map((e) {
             return LibraryContainer(
-              label: "${e['name']}",
-              onTap: () {},
+              label: "${e.topicName}".capitalizeFirst!,
+              onTap: () {
+                con1.selectedTopicId.value = e.id;
+                con.playerController.load(
+                  YoutubePlayer.convertUrlToId(e.link)!,
+                );
+                con.topicName.value = e.topicName;
+
+                con.playerController.seekTo(const Duration(seconds: 0));
+              },
             );
           }).toList(),
         ],

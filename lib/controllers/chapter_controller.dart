@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:prime_app/controllers/mcqs_controller.dart';
 import 'package:prime_app/models/chapter_model.dart';
 import 'package:prime_app/models/course_model.dart';
 import 'package:prime_app/models/topic_model.dart';
@@ -7,12 +8,9 @@ import 'package:prime_app/service/firestore_service.dart';
 class ChapterController extends GetxController {
   var chapterList = [].obs;
   var topicsList = [].obs;
+  RxString selectedMcqsTopic = ''.obs;
+  RxString selectedTopicId = ''.obs;
 
-  RxList classList = [
-    {"name": "Class 1", "id": 1},
-    {"name": "Class 2", "id": 2},
-    {"name": "Class 3", "id": 3},
-  ].obs;
   var isLoading = false.obs;
   RxBool isTopicLoading = false.obs;
   late Course selectedCourse;
@@ -30,10 +28,28 @@ class ChapterController extends GetxController {
           await FirestoreService().getChaptersArray(selectedCourse.id);
       print("I am Chapters");
       if (!chapters.isEmpty) {
-        chapterList.clear();
-        chapterList.assignAll(chapters.map((e) {
-          return Chapter.fromJson(e);
-        }).toList());
+        List<Chapter> sortedChapters = [];
+        Chapter? mcqsChapter;
+
+        for (var e in chapters) {
+          if (e['id'] == "MCQSSS") {
+            selectedMcqsTopic.value = e['chapterName'];
+            mcqsChapter = Chapter.fromJson({
+              "id": "MCQSSS",
+              "chapterName": "MCQS"
+            }); // Store MCQSSS separately
+          } else {
+            sortedChapters
+                .add(Chapter.fromJson(e)); // Add other chapters normally
+          }
+        }
+
+        if (mcqsChapter != null) {
+          sortedChapters.insert(0, mcqsChapter);
+        }
+
+// Assign the sorted list to chapterList
+        chapterList.assignAll(sortedChapters);
       } else {
         chapterList.clear();
       }

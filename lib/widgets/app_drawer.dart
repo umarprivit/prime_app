@@ -36,9 +36,9 @@ class AppDrawer extends StatelessWidget {
             child: ListView(
               children: [
                 _buildDrawerItem(Icons.person_outline, "My Profile", () {}),
-                _buildDrawerItem(Icons.extension, "MCQs", () {
-                  Get.toNamed(Routes.MCQS_SUBJECT_SCREEN_ROUTE);
-                }),
+                // _buildDrawerItem(Icons.extension, "MCQs", () {
+                //   Get.toNamed(Routes.MCQS_SUBJECT_SCREEN_ROUTE);
+                // }),
                 _buildDrawerItem(Icons.download_rounded, "Downloads", () {}),
                 _buildDrawerItem(
                     Icons.bug_report_outlined, "Report Bugs", () {}),

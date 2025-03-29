@@ -12,16 +12,17 @@ import 'package:prime_app/service/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await dataEntry();
+  await SharedPrefService.init();
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   FirebaseMessaging.instance.subscribeToTopic("all");
   String? deviceId = await SharedPrefService().getDeviceId();
+  print(deviceId);
   if (!(deviceId!.isEmpty)) {
-    print("Trying to delete expire courses registerd on this device with device id $deviceId");
+    print(
+        "Trying to delete expire courses registerd on this device with device id $deviceId");
     await FirestoreService().isExpired(deviceId: deviceId);
   }
 
-  await SharedPrefService.init();
   runApp(GetMaterialApp(
     theme: AppTheme.lightTheme,
     getPages: AppRoutes.routes,

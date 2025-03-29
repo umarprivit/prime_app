@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/get_utils.dart';
 import 'package:prime_app/config/config.dart';
 
 class CourseWidget extends StatelessWidget {
@@ -23,7 +24,7 @@ class CourseWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Center(
-                child: Text(label[0],
+                child: Text(label[0].capitalizeFirst!,
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontFamily: Config.FONT_FAMILY,
@@ -35,7 +36,7 @@ class CourseWidget extends StatelessWidget {
             Expanded(
               child: Container(
                 width: 85,
-                child: Text(label,
+                child: Text(label.capitalizeFirst!,
                     maxLines: 3,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
