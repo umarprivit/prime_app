@@ -152,18 +152,31 @@ class _QuizScreenState extends State<QuizScreen> {
                                       if (con.selectedAnswer.value.isEmpty) {
                                         Get.snackbar(
                                             "Alert", "Please select an option",
-                                            snackPosition: SnackPosition.BOTTOM);
+                                            snackPosition:
+                                                SnackPosition.BOTTOM);
                                         return;
                                       }
-      
+
                                       if (con.selectedAnswer.value ==
                                           con.questions[con.count.value]
                                               .correct) {
                                         con.correct.value++;
                                       } else {
                                         con.incorrect.value++;
+                                        con.wrongQuestions.add({
+                                          "question": con
+                                              .questions[con.count.value]
+                                              .question,
+                                          "options": con
+                                              .questions[con.count.value]
+                                              .options,
+                                          "correct": con
+                                              .questions[con.count.value]
+                                              .correct,
+                                          "selected": con.selectedAnswer.value,
+                                        });
                                       }
-      
+
                                       _nextQuestion(con);
                                     },
                                   ),

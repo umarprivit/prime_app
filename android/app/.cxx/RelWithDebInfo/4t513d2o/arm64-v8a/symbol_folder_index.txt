@@ -1,0 +1,1 @@
+/home/umer/side_projects/prime_app/build/app/intermediates/cxx/RelWithDebInfo/4t513d2o/obj/arm64-v8a

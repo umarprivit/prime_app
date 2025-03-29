@@ -1,0 +1,2 @@
+/home/umer/side_projects/prime_app/android/app/.cxx/RelWithDebInfo/4t513d2o/x86/CMakeFiles/edit_cache.dir
+/home/umer/side_projects/prime_app/android/app/.cxx/RelWithDebInfo/4t513d2o/x86/CMakeFiles/rebuild_cache.dir

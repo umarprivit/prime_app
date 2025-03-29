@@ -12,7 +12,7 @@ class QuestionsController extends GetxController {
   RxBool isLoading = false.obs;
   RxString quizId = "".obs;
   String chapterId = "";
-
+  List<Map<dynamic, dynamic>> wrongQuestions = [];
   final jsson = [];
 
   void fetchQuiz() async {

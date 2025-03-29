@@ -10,7 +10,26 @@ class McqsController extends GetxController {
   RxBool isSubjectLoading = false.obs;
   RxBool isMcqsLoading = false.obs;
   RxInt selectedPageNumber = 1.obs;
+  RxString totalPageNumber = "".obs;
   final ChapterController chapterController = Get.find<ChapterController>();
+  // final ChapterController chapterController =
+  //     Get.put(ChapterController());
+
+  Future<void> getTotalPageNumber() async {
+    try {
+      final data = await FirestoreService()
+          .getFieldFromDocument("mcqs", selectedSubject.value, "total_page");
+
+      if (data != null) {
+        totalPageNumber.value = data.toString();
+        print(data);
+      } else {
+        totalPageNumber.value = selectedPageNumber.value.toString();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> getSubjectNames() async {
     try {
@@ -26,6 +45,9 @@ class McqsController extends GetxController {
   }
 
   void increasePageNumber() {
+    if (selectedPageNumber.value >= int.parse(totalPageNumber.value)) {
+      return;
+    }
     selectedPageNumber.value++;
     getAllMcqs();
   }
@@ -39,6 +61,7 @@ class McqsController extends GetxController {
 
   Future<void> getAllMcqs() async {
     try {
+      mcqs.clear();
       if (chapterController.selectedMcqsTopic.value.isNotEmpty) {
         selectedSubject.value = chapterController.selectedMcqsTopic.value;
       }

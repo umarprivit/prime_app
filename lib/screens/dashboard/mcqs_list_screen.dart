@@ -11,6 +11,7 @@ class McqsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     con.getAllMcqs();
+    con.getTotalPageNumber();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -33,7 +34,7 @@ class McqsListScreen extends StatelessWidget {
               ),
               Obx(
                 () => Text(
-                  "${con.selectedPageNumber.value}",
+                  "${con.selectedPageNumber.value}/${con.totalPageNumber.value}",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -56,8 +57,22 @@ class McqsListScreen extends StatelessWidget {
                           itemCount: con.mcqs.length,
                           itemBuilder: (context, index) {
                             return Container(
+                              padding: EdgeInsets.all(14),
                               margin: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                                  horizontal: 10, vertical: 12),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color.fromARGB(
+                                        157, 126, 126, 126),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -65,6 +80,7 @@ class McqsListScreen extends StatelessWidget {
                                     "${index + 1}. ${con.mcqs[index].question}",
                                     style: TextStyle(
                                       fontSize: 20,
+                                      color: Theme.of(context).primaryColor,
                                       fontFamily: Config.FONT_FAMILY,
                                       fontWeight: FontWeight.w800,
                                     ),
@@ -74,20 +90,14 @@ class McqsListScreen extends StatelessWidget {
                                       //index of e
                                       "${con.mcqs[index].options.indexOf(e) + 1}. $e",
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
+                                        fontWeight: e == con.mcqs[index].correct
+                                            ? FontWeight.w700
+                                            : FontWeight.w400,
                                         fontFamily: Config.FONT_FAMILY,
                                       ),
                                     );
                                   }).toList(),
-                                  Text(
-                                    "Correct Answer: ${con.mcqs[index].correct}",
-                                    style: TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: Config.FONT_FAMILY,
-                                    ),
-                                  ),
                                 ],
                               ),
                             );

@@ -10,6 +10,8 @@ class QuizInstructionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final QuestionsController con = Get.put(QuestionsController());
+    con.wrongQuestions.clear();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -71,9 +73,10 @@ class QuizInstructionsScreen extends StatelessWidget {
                       child: Appbutton(
                           text: "Start Test",
                           onPressed: () {
-                             // Set your quiz ID here
-                             
-                            Get.offNamed(Routes.QUIZ_SCREEN_ROUTE,arguments: Get.arguments);
+                            // Set your quiz ID here
+
+                            Get.offNamed(Routes.QUIZ_SCREEN_ROUTE,
+                                arguments: Get.arguments);
                           })),
                 ),
                 const SizedBox(height: 20),
