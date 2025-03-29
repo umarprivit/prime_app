@@ -3,7 +3,6 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoController extends GetxController {
   late YoutubePlayerController playerController;
-  RxList videoList = [].obs;
   var isPlaying = false.obs;
   RxString videoUrl = ''.obs;
   RxString topicName = ''.obs;
