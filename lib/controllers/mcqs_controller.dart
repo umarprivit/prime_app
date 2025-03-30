@@ -89,6 +89,9 @@ class McqsController extends GetxController {
       mcqs.clear();
 
       isMcqsLoading.value = true;
+      if(selectedSubject.value == "error detection"){
+        selectedSubject.value = "error Detection";
+      }
       final data = await FirestoreService().getFieldFromDocument(
         'mcqs',
         selectedSubject.value,

@@ -105,6 +105,50 @@ class RequestCourse extends StatelessWidget {
                         width: double.infinity,
                         margin: EdgeInsets.only(left: 39, right: 39),
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              backgroundColor: Colors.white),
+                          onPressed: () async {
+                            if (con.selectedSkill.value.demoURL!.isEmpty) {
+                              Get.snackbar(
+                                  "Demo not available", "Demo not available",
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.white);
+                            } else {
+                              Get.toNamed(Routes.DEMO_VIDEO_SCREEN_ROUTE,
+                                  arguments: {
+                                    "videoUrl": con.selectedSkill.value.demoURL,
+                                  });
+                            }
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.play_circle_outline,
+                                color: Theme.of(context).primaryColor,
+                                size: 30,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                "Watch Demo",
+                                style: TextStyle(
+                                    fontFamily: Config.FONT_FAMILY,
+                                    fontWeight: FontWeight.w700,
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 17),
+                              ),
+                            ],
+                          ),
+                        )),
+                    SizedBox(height: 20),
+                    Container(
+                        height: 56,
+                        width: double.infinity,
+                        margin: EdgeInsets.only(left: 39, right: 39),
+                        child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7),

@@ -17,5 +17,15 @@ class VideoController extends GetxController {
       });
   }
 
+  void initializeDemoPlayer(argument) {
+    playerController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(argument)!,
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
+  }
+
   void disposePlayer() {}
 }

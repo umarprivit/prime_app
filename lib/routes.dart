@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prime_app/screens/course_screens/chapter_screen.dart';
+import 'package:prime_app/screens/course_screens/demo_video_screen.dart';
 import 'package:prime_app/screens/course_screens/quiz_note_screen.dart';
 import 'package:prime_app/screens/course_screens/quiz_result_screen.dart';
 import 'package:prime_app/screens/course_screens/quiz_screen.dart';
@@ -79,6 +80,10 @@ class AppRoutes {
       name: Routes.MCQS_SCREEN_ROUTE,
       page: () => McqsListScreen(),
     ),
+    GetPage(
+      name: Routes.DEMO_VIDEO_SCREEN_ROUTE,
+      page: () => YouTubePlayerDemoScreen(),
+    ),
   ];
 }
 
@@ -98,6 +103,7 @@ class Routes {
   static String REQUEST_COURSE_SCREEN_ROUTE = '/course_request_screen';
   static String MCQS_SUBJECT_SCREEN_ROUTE = '/mcqs_subject_screen';
   static String MCQS_SCREEN_ROUTE = '/mcqs_screen';
+  static String DEMO_VIDEO_SCREEN_ROUTE = '/demo_video_screen';
 }
 
 class Endpoints {}
