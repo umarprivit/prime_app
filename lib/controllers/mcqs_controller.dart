@@ -33,12 +33,37 @@ class McqsController extends GetxController {
 
   Future<void> getSubjectNames() async {
     try {
+      if (chapterController.selectedMcqsTopic.value.isNotEmpty) {
+        // Split the string and add unique subjects to the list
+        List<String> selectedSubjects =
+            chapterController.selectedMcqsTopic.value
+                .split(',')
+                .map((e) => e.trim().toLowerCase()) // Trim spaces
+                .toList();
+
+        // Assign subjects without fetching from Firestore
+        subjects.assignAll(selectedSubjects);
+        print("Subjects from selectedMcqsTopic: $subjects");
+        return; // Exit the function early
+      }
+
       isSubjectLoading.value = true;
+
+      // Fetch subjects from Firestore
       final data = await FirestoreService().getAllDocumentNames('mcqs');
-      print(data);
-      subjects.assignAll(data);
+      print("Raw Data from Firestore: $data");
+
+      // Split Firestore data and assign to subjects
+      List<String> separatedSubjects = [];
+
+      for (String entry in data) {
+        separatedSubjects.addAll(entry.split(',').map((e) => e.trim()));
+      }
+
+      subjects.assignAll(separatedSubjects);
+      print("Processed Subjects from Firestore: $subjects");
     } catch (e) {
-      print(e);
+      print("Error: $e");
     } finally {
       isSubjectLoading.value = false;
     }
@@ -62,9 +87,7 @@ class McqsController extends GetxController {
   Future<void> getAllMcqs() async {
     try {
       mcqs.clear();
-      if (chapterController.selectedMcqsTopic.value.isNotEmpty) {
-        selectedSubject.value = chapterController.selectedMcqsTopic.value;
-      }
+
       isMcqsLoading.value = true;
       final data = await FirestoreService().getFieldFromDocument(
         'mcqs',

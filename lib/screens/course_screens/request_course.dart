@@ -74,22 +74,22 @@ class RequestCourse extends StatelessWidget {
                               ),
                               backgroundColor: Colors.white),
                           onPressed: () async {
-                            Get.snackbar(
-                                "Demo not available", "Demo not available",
-                                snackPosition: SnackPosition.TOP,
-                                backgroundColor: Colors.white);
+                            // Get.snackbar(
+                            //     "Demo not available", "Demo not available",
+                            //     snackPosition: SnackPosition.TOP,
+                            //     backgroundColor: Colors.white);
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.vpn_key_rounded,
+                                Icons.attach_money,
                                 color: Theme.of(context).primaryColor,
                                 size: 30,
                               ),
                               SizedBox(width: 10),
                               Text(
-                                "Watch Demo",
+                                "Only for ${con.selectedSkill.value.price} PKR ",
                                 style: TextStyle(
                                     fontFamily: Config.FONT_FAMILY,
                                     fontWeight: FontWeight.w700,
@@ -159,6 +159,7 @@ class RequestCourse extends StatelessWidget {
   }
 
   void infoGatheringBottomSheet(BuildContext context) {
+    con.cityController.text = con.selectedSkill.value.price!;
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(20),
@@ -169,7 +170,6 @@ class RequestCourse extends StatelessWidget {
             topRight: Radius.circular(20),
           ),
         ),
-        // height: 400,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -187,9 +187,10 @@ class RequestCourse extends StatelessWidget {
               const SizedBox(height: 20),
               _buildTextField(con.phoneNumberController, "Phone Number"),
               const SizedBox(height: 20),
-              _buildTextField(con.cityController, "City"),
+              _buildTextField(con.cityController, "Price",
+                  readOnly: true), // Make price read-only
               const SizedBox(height: 20),
-              _buildTextField(con.DOBController, "Date of Birth"),
+              _buildTextField(con.DOBController, "Transaction ID"),
               const SizedBox(height: 20),
               Padding(
                 padding:
@@ -203,6 +204,14 @@ class RequestCourse extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
+                    if (!_isValidPakistaniNumber(
+                        con.phoneNumberController.text)) {
+                      Get.snackbar(
+                          "Error", "Please enter a valid Pakistani number",
+                          backgroundColor: Colors.red);
+                      return;
+                    }
+
                     if (con.nameController.text.isNotEmpty &&
                         con.phoneNumberController.text.isNotEmpty) {
                       Get.back();
@@ -230,7 +239,13 @@ class RequestCourse extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String hint) {
+  bool _isValidPakistaniNumber(String number) {
+    RegExp regex = RegExp(r'^(?:\+92|92|03)[0-9]{9}$');
+    return regex.hasMatch(number);
+  }
+
+  Widget _buildTextField(TextEditingController controller, String hint,
+      {bool readOnly = false}) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -238,6 +253,9 @@ class RequestCourse extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
+        readOnly: readOnly, // Prevent editing for price field
+        keyboardType:
+            hint == "Phone Number" ? TextInputType.phone : TextInputType.text,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(12),
           hintText: hint,

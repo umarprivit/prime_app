@@ -23,7 +23,7 @@ class LibraryContainer extends StatelessWidget {
             EdgeInsets.symmetric(vertical: 15, horizontal: 20), // Added padding
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: label == "MCQS"
+          color: label == "MCQS & Past Papers"
               ? Theme.of(context).primaryColor
               : Color.fromRGBO(0, 0, 0, 0.085),
         ),
@@ -38,7 +38,7 @@ class LibraryContainer extends StatelessWidget {
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   fontFamily: Config.FONT_FAMILY,
-                  color: label == "MCQS"
+                  color: label == "MCQS & Past Papers"
                       ? Colors.white
                       : Theme.of(context).primaryColor,
                 ),
@@ -46,12 +46,12 @@ class LibraryContainer extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                label == "MCQS" ? "MCQS" : label.capitalizeFirst!,
+                label == "MCQS & Past Papers" ? "MCQS & Past Papers" : label.capitalizeFirst!,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontFamily: Config.FONT_FAMILY,
-                  color: label == "MCQS" ? Colors.white : Config.GREY_COLOR,
+                  color: label == "MCQS & Past Papers" ? Colors.white : Config.GREY_COLOR,
                   fontSize: 19,
                 ),
               ),

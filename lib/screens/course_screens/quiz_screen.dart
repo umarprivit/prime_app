@@ -147,6 +147,17 @@ class _QuizScreenState extends State<QuizScreen> {
                                   width: 150,
                                   height: 50,
                                   child: Appbutton(
+                                    text: "Skip",
+                                    onPressed: () {
+                                      con.skip.value++;
+                                      _nextQuestion(con);
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  width: 150,
+                                  height: 50,
+                                  child: Appbutton(
                                     text: "Submit",
                                     onPressed: () {
                                       if (con.selectedAnswer.value.isEmpty) {
@@ -181,17 +192,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                     },
                                   ),
                                 ),
-                                Container(
-                                  width: 150,
-                                  height: 50,
-                                  child: Appbutton(
-                                    text: "Skip",
-                                    onPressed: () {
-                                      con.skip.value++;
-                                      _nextQuestion(con);
-                                    },
-                                  ),
-                                ),
+                                
                               ],
                             ),
                           ],

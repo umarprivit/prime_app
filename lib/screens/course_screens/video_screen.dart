@@ -177,20 +177,27 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
               ),
             ],
           ),
-          ...con1.topicsList.map((e) {
-            return LibraryContainer(
-              label: "${e.topicName}".capitalizeFirst!,
-              onTap: () {
-                con1.selectedTopicId.value = e.id;
-                con.playerController.load(
-                  YoutubePlayer.convertUrlToId(e.link)!,
-                );
-                con.topicName.value = e.topicName;
+          // Scrollable video list
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: con1.topicsList.map((e) {
+                  return LibraryContainer(
+                    label: "${e.topicName}".capitalizeFirst!,
+                    onTap: () {
+                      con1.selectedTopicId.value = e.id;
+                      con.playerController.load(
+                        YoutubePlayer.convertUrlToId(e.link)!,
+                      );
+                      con.topicName.value = e.topicName;
 
-                con.playerController.seekTo(const Duration(seconds: 0));
-              },
-            );
-          }).toList(),
+                      con.playerController.seekTo(const Duration(seconds: 0));
+                    },
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
         ],
       ),
     );

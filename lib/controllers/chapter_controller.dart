@@ -36,7 +36,7 @@ class ChapterController extends GetxController {
             selectedMcqsTopic.value = e['chapterName'];
             mcqsChapter = Chapter.fromJson({
               "id": "MCQSSS",
-              "chapterName": "MCQS"
+              "chapterName": "MCQS & Past Papers",
             }); // Store MCQSSS separately
           } else {
             sortedChapters
