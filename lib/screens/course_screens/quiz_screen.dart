@@ -134,8 +134,9 @@ class _QuizScreenState extends State<QuizScreen> {
                                     con.selectedAnswer.value = item;
                                   },
                                   isSequenced: true,
-                                  option:
-                                      "${con.questions[con.count.value].options.indexOf(item) + 1}",
+                                  option: String.fromCharCode(65 +
+                                      (con.questions[con.count.value].options
+                                          .indexOf(item) as int)), // Convert index to A, B, C, D
                                 );
                               })
                             ]),
@@ -192,7 +193,6 @@ class _QuizScreenState extends State<QuizScreen> {
                                     },
                                   ),
                                 ),
-                                
                               ],
                             ),
                           ],

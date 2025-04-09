@@ -12,6 +12,7 @@ class SharedPrefService {
   static const String _isGuestKey = "isGuest";
   static const String _isLoggedInKey = "isLoggedIn";
   static const String _deviceIdKey = "deviceId";
+  static const String _userNameKey = "userName";
 
   // Initialize SharedPreferences (Call this in main.dart before using)
   static Future<void> init() async {
@@ -21,6 +22,10 @@ class SharedPrefService {
   // Setters
   Future<void> setIsGuest(bool value) async {
     await _prefs?.setBool(_isGuestKey, value);
+  }
+
+  Future<void> setUserName(String name) async {
+    await _prefs?.setString(_userNameKey, name);
   }
 
   Future<void> setIsLoggedIn(bool value) async {
@@ -37,6 +42,8 @@ class SharedPrefService {
   bool getIsLoggedIn() => _prefs?.getBool(_isLoggedInKey) ?? false;
 
   String? getDeviceId() => _prefs?.getString(_deviceIdKey) ?? "";
+
+  String? getUserName() => _prefs?.getString(_userNameKey) ?? "";
 
   // Clear all stored data (optional utility method)
   Future<void> clearAll() async {

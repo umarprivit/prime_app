@@ -29,7 +29,6 @@ class LoginscreenController extends GetxController {
 
   logoutAsGuest() async {
     isLoading.value = true;
-    SharedPrefService().clearAll();
 
     isLoading.value = false;
     Get.offAllNamed(Routes.WELCOME_SCREEN_ROUTE);

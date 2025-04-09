@@ -7,12 +7,16 @@ import 'package:prime_app/apptheme.dart';
 import 'package:prime_app/routes.dart';
 import 'package:prime_app/screens/starting_screens/splash_screen.dart';
 import 'package:prime_app/service/firestore_service.dart';
+import 'package:prime_app/service/notification_service.dart';
 import 'package:prime_app/service/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await SharedPrefService.init();
+  await NotificationService().initNotifications();
+  // await FirestoreService().renameDocument('mcqs', 'gk part 1', 'accounts jobs');
+  // await dataEntry();
   FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
   FirebaseMessaging.instance.subscribeToTopic("all");
   String? deviceId = await SharedPrefService().getDeviceId();
@@ -39,721 +43,389 @@ Future<void> _backgroundMessageHandler(RemoteMessage message) async {
 }
 
 // Map<int, List<Map<String, dynamic>>> mcqsByPage = {
-//   1: [
+//   41: [
 //     {
-//       "question": "What is the SI unit of force?",
-//       "options": ["Newton", "Joule", "Watt", "Pascal"],
-//       "answer": "Newton"
+//       "question": "Faithful representation excludes:",
+//       "options": ["Ambiguities that cannot be reliably measured.", "All estimates.", "Legal forms of transactions.", "Historical data."],
+//       "answer": "Ambiguities that cannot be reliably measured."
 //     },
 //     {
-//       "question": "The energy stored in an object due to its motion is called:",
-//       "options": ["Potential energy", "Kinetic energy", "Thermal energy", "Chemical energy"],
-//       "answer": "Kinetic energy"
+//       "question": "Prudence in financial statements means:",
+//       "options": ["Avoiding overstatement of assets or profits.", "Ignoring all risks.", "Maximizing reported earnings.", "Excluding liabilities."],
+//       "answer": "Avoiding overstatement of assets or profits."
 //     },
 //     {
-//       "question": "The law of conservation of energy states that:",
-//       "options": [
-//         "Energy can be created or destroyed",
-//         "Energy can only be destroyed",
-//         "Energy can neither be created nor destroyed",
-//         "Energy is always constant"
-//       ],
-//       "answer": "Energy can neither be created nor destroyed"
+//       "question": "The materiality concept depends on:",
+//       "options": ["The size and nature of the item.", "The company's location.", "Employee opinions.", "Competitor actions."],
+//       "answer": "The size and nature of the item."
 //     },
 //     {
-//       "question": "What is the SI unit of work?",
-//       "options": ["Watt", "Newton", "Joule", "Meter"],
-//       "answer": "Joule"
+//       "question": "Comparability is hindered by:",
+//       "options": ["Inconsistent accounting policies.", "Detailed disclosures.", "Neutrality.", "Completeness."],
+//       "answer": "Inconsistent accounting policies."
 //     },
 //     {
-//       "question": "Which of the following is a vector quantity?",
-//       "options": ["Speed", "Distance", "Acceleration", "Mass"],
-//       "answer": "Acceleration"
+//       "question": "Which characteristic ensures financial statements are not misleading?",
+//       "options": ["Completeness", "Complexity", "Optimism", "Exclusivity"],
+//       "answer": "Completeness"
 //     },
 //     {
-//       "question": "The rate of change of velocity is called:",
-//       "options": ["Force", "Acceleration", "Speed", "Momentum"],
-//       "answer": "Acceleration"
+//       "question": "Internal goodwill is often excluded from financial statements due to:",
+//       "options": ["Difficulty in measurement.", "Tax regulations.", "Employee objections.", "Competitor pressure."],
+//       "answer": "Difficulty in measurement."
 //     },
 //     {
-//       "question": "What is the SI unit of power?",
-//       "options": ["Watt", "Joule", "Newton", "Ampere"],
-//       "answer": "Watt"
+//       "question": "Bias in financial statements can lead to:",
+//       "options": ["Pre-determined results influencing users.", "Higher profits.", "Better employee morale.", "Increased market share."],
+//       "answer": "Pre-determined results influencing users."
 //     },
 //     {
-//       "question": "The force required to move a body with constant velocity is equal to:",
-//       "options": [
-//         "The weight of the body",
-//         "The frictional force",
-//         "The normal force",
-//         "Zero"
-//       ],
-//       "answer": "The frictional force"
+//       "question": "The substance over legal form principle ensures:",
+//       "options": ["Transactions reflect economic reality.", "Legal compliance is ignored.", "Only cash transactions are recorded.", "Estimates are excluded."],
+//       "answer": "Transactions reflect economic reality."
 //     },
 //     {
-//       "question": "Which of the following quantities is a scalar?",
-//       "options": ["Displacement", "Velocity", "Speed", "Force"],
-//       "answer": "Speed"
+//       "question": "Which user group is interested in long-term supply stability?",
+//       "options": ["Customers", "Employees", "Tax authorities", "Management"],
+//       "answer": "Customers"
 //     },
 //     {
-//       "question": "A body is said to be in equilibrium when:",
-//       "options": [
-//         "The net force acting on it is zero",
-//         "The net torque acting on it is zero",
-//         "Both A and B",
-//         "The velocity is zero"
-//       ],
-//       "answer": "Both A and B"
+//       "question": "The Securities and Exchange Commission is an example of:",
+//       "options": ["Regulatory Authorities", "Internal Users", "Creditors", "Investors"],
+//       "answer": "Regulatory Authorities"
 //     },
 //     {
-//       "question": "What is the SI unit of electric current?",
-//       "options": ["Ampere", "Volt", "Coulomb", "Ohm"],
-//       "answer": "Ampere"
+//       "question": "Financial statements help management in:",
+//       "options": ["Decision-making and planning.", "Setting tax rates.", "Designing products.", "Hiring employees."],
+//       "answer": "Decision-making and planning."
 //     },
 //     {
-//       "question": "The resistance of a conductor depends on:",
-//       "options": [
-//         "Its temperature",
-//         "Its material",
-//         "Its length and cross-sectional area",
-//         "All of the above"
-//       ],
-//       "answer": "All of the above"
+//       "question": "Which of the following is a qualitative characteristic of financial statements?",
+//       "options": ["Relevance", "Profitability", "Liquidity", "Solvency"],
+//       "answer": "Relevance"
 //     },
 //     {
-//       "question": "Ohm's law states that:",
-//       "options": [
-//         "Current is inversely proportional to voltage",
-//         "Voltage is proportional to current",
-//         "Current is directly proportional to voltage and inversely proportional to resistance",
-//         "Resistance is inversely proportional to current"
-//       ],
-//       "answer": "Current is directly proportional to voltage and inversely proportional to resistance"
+//       "question": "The term \"neutrality\" is closely related to:",
+//       "options": ["Freedom from bias.", "Completeness.", "Understandability.", "Comparability."],
+//       "answer": "Freedom from bias."
 //     },
 //     {
-//       "question": "What is the SI unit of voltage?",
-//       "options": ["Ampere", "Ohm", "Volt", "Watt"],
-//       "answer": "Volt"
+//       "question": "Omission of material information makes financial statements:",
+//       "options": ["Unreliable and irrelevant.", "Easier to understand.", "More comparable.", "Neutral."],
+//       "answer": "Unreliable and irrelevant."
 //     },
 //     {
-//       "question": "Which of the following is a non-renewable energy source?",
-//       "options": ["Solar energy", "Wind energy", "Coal", "Hydroelectric power"],
-//       "answer": "Coal"
+//       "question": "Consistency in accounting policies enhances:",
+//       "options": ["Comparability.", "Relevance.", "Materiality.", "Prudence."],
+//       "answer": "Comparability."
 //     },
 //     {
-//       "question": "What does a convex lens do to parallel rays of light?",
-//       "options": [
-//         "Diverges them",
-//         "Focuses them to a point",
-//         "Reflects them",
-//         "Absorbs them"
-//       ],
-//       "answer": "Focuses them to a point"
+//       "question": "Which user group relies on financial statements to confirm predictions?",
+//       "options": ["Investors", "Employees", "Suppliers", "Management"],
+//       "answer": "Investors"
 //     },
 //     {
-//       "question": "The speed of light in vacuum is approximately:",
-//       "options": ["3 × 10^8 m/s", "3 × 10^6 m/s", "1 × 10^8 m/s", "2 × 10^8 m/s"],
-//       "answer": "3 × 10^8 m/s"
+//       "question": "The primary purpose of financial statements is to:",
+//       "options": ["Provide useful information to users.", "Reduce tax liabilities.", "Increase sales.", "Attract competitors."],
+//       "answer": "Provide useful information to users."
 //     },
 //     {
-//       "question": "The frequency of a wave is:",
-//       "options": [
-//         "The number of complete cycles passing a point in one second",
-//         "The distance between two successive crests",
-//         "The speed of the wave",
-//         "The amplitude of the wave"
-//       ],
-//       "answer": "The number of complete cycles passing a point in one second"
+//       "question": "Which characteristic requires financial statements to be free from errors?",
+//       "options": ["Reliability", "Relevance", "Understandability", "Comparability"],
+//       "answer": "Reliability"
 //     },
 //     {
-//       "question": "Which of the following waves does not require a medium for propagation?",
-//       "options": ["Sound wave", "Light wave", "Water wave", "Seismic wave"],
-//       "answer": "Light wave"
+//       "question": "Employees use financial statements to assess:",
+//       "options": ["Company profitability and job security.", "Tax evasion.", "Market competition.", "Product quality."],
+//       "answer": "Company profitability and job security."
 //     },
 //     {
-//       "question": "Which of the following is an example of a non-contact force?",
-//       "options": ["Tension", "Friction", "Gravitational force", "Normal force"],
-//       "answer": "Gravitational force"
-//     }
+//       "question": "Which of the following is NOT a characteristic of useful accounting information?",
+//       "options": ["Complexity", "Relevance", "Reliability", "Comparability"],
+//       "answer": "Complexity"
+//     },
 //   ],
-//   2: [
+//   42: [
 //     {
-//       "question": "What is the center of gravity?",
-//       "options": [
-//         "The point where the mass of a body is concentrated",
-//         "The point where all the forces acting on a body are balanced",
-//         "The point where gravitational force acts",
-//         "The point where the object has no weight"
-//       ],
-//       "answer": "The point where the mass of a body is concentrated"
+//       "question": "Financial statements are prepared to meet the needs of:",
+//       "options": ["Both internal and external users.", "Only management.", "Only shareholders.", "Only government."],
+//       "answer": "Both internal and external users."
 //     },
 //     {
-//       "question": "The unit of frequency is:",
-//       "options": ["Second", "Hertz", "Meter", "Decibel"],
-//       "answer": "Hertz"
+//       "question": "The term \"faithful representation\" is associated with:",
+//       "options": ["Accuracy and substance of information.", "Legal compliance.", "Employee satisfaction.", "Marketing strategies."],
+//       "answer": "Accuracy and substance of information."
 //     },
 //     {
-//       "question": "The principle of moments states that:",
-//       "options": [
-//         "The sum of moments about a point is equal to zero in equilibrium",
-//         "The moment is equal to the force applied times the distance",
-//         "The sum of forces in any direction is equal to zero",
-//         "All of the above"
-//       ],
-//       "answer": "All of the above"
+//       "question": "Which user group is interested in the financial health of a supplier?",
+//       "options": ["Customers", "Employees", "Tax authorities", "Management"],
+//       "answer": "Customers"
 //     },
 //     {
-//       "question": "In a closed circuit, the current is:",
-//       "options": [
-//         "Inversely proportional to the resistance",
-//         "Directly proportional to the voltage",
-//         "Directly proportional to the resistance",
-//         "Inversely proportional to the voltage"
-//       ],
-//       "answer": "Directly proportional to the voltage"
+//       "question": "Regulatory authorities protect the interests of:",
+//       "options": ["Stakeholders relying on financial statements.", "Only shareholders.", "Only creditors.", "Only management."],
+//       "answer": "Stakeholders relying on financial statements."
 //     },
 //     {
-//       "question": "The acceleration due to gravity on Earth is approximately:",
-//       "options": ["10 m/s²", "9.8 m/s²", "12 m/s²", "5 m/s²"],
-//       "answer": "9.8 m/s²"
+//       "question": "The concept of prudence prevents:",
+//       "options": ["Overstatement of financial performance.", "Understatement of liabilities.", "Disclosure of all estimates.", "Comparison with prior years."],
+//       "answer": "Overstatement of financial performance."
 //     },
 //     {
-//       "question": "The mechanical advantage of a simple machine is the ratio of:",
-//       "options": [
-//         "Output force to input force",
-//         "Input force to output force",
-//         "Distance moved by input force to distance moved by output force",
-//         "None of the above"
-//       ],
-//       "answer": "Output force to input force"
+//       "question": "What is the primary purpose of adjusting entries?",
+//       "options": ["To record daily transactions", "To ensure financial statements reflect accurate revenues and expenses for the period", "To close temporary accounts", "To prepare tax returns"],
+//       "answer": "To ensure financial statements reflect accurate revenues and expenses for the period"
 //     },
 //     {
-//       "question": "The energy possessed by an object due to its position is called:",
-//       "options": ["Kinetic energy", "Potential energy", "Thermal energy", "Chemical energy"],
-//       "answer": "Potential energy"
+//       "question": "Adjusting entries typically involve which types of accounts?",
+//       "options": ["Two balance sheet accounts", "Two income statement accounts", "One income statement account and one balance sheet account", "Two permanent accounts"],
+//       "answer": "One income statement account and one balance sheet account"
 //     },
 //     {
-//       "question": "A circuit with resistors connected in parallel has:",
-//       "options": [
-//         "The same current through all resistors",
-//         "The same voltage across all resistors",
-//         "A total resistance greater than the smallest resistor",
-//         "None of the above"
-//       ],
-//       "answer": "The same voltage across all resistors"
+//       "question": "Why might an adjusting entry be needed for prepaid insurance?",
+//       "options": ["To record the full payment as an expense", "To expense only the portion of insurance used during the period", "To reduce the liability account", "To close the insurance account"],
+//       "answer": "To expense only the portion of insurance used during the period"
 //     },
 //     {
-//       "question": "The change in momentum of an object is equal to:",
-//       "options": [
-//         "The net force applied multiplied by time",
-//         "The mass of the object multiplied by acceleration",
-//         "The product of mass and velocity",
-//         "The work done on the object"
-//       ],
-//       "answer": "The net force applied multiplied by time"
+//       "question": "An electricity bill of Rs. 20,000 is payable at year-end. What is the adjusting entry?",
+//       "options": ["Debit Electricity Expense; Credit Cash", "Debit Electricity Expense; Credit Utilities Payable", "Debit Utilities Payable; Credit Electricity Expense", "Debit Cash; Credit Electricity Expense"],
+//       "answer": "Debit Electricity Expense; Credit Utilities Payable"
 //     },
 //     {
-//       "question": "What is the unit of pressure?",
-//       "options": ["Newton", "Pascal", "Joule", "Watt"],
-//       "answer": "Pascal"
+//       "question": "Salaries accrued at year-end are recorded as:",
+//       "options": ["Debit Salaries Payable; Credit Salaries Expense", "Debit Salaries Expense; Credit Salaries Payable", "Debit Cash; Credit Salaries Expense", "Debit Salaries Expense; Credit Cash"],
+//       "answer": "Debit Salaries Expense; Credit Salaries Payable"
 //     },
 //     {
-//       "question": "The formula for kinetic energy is:",
-//       "options": [
-//         "KE = ½mv²",
-//         "KE = mv²",
-//         "KE = mgh",
-//         "KE = ½mgh"
-//       ],
-//       "answer": "KE = ½mv²"
+//       "question": "Depreciation on an office building is recorded as:",
+//       "options": ["Debit Accumulated Depreciation; Credit Depreciation Expense", "Debit Depreciation Expense; Credit Accumulated Depreciation", "Debit Office Building; Credit Depreciation Expense", "Debit Depreciation Expense; Credit Office Building"],
+//       "answer": "Debit Depreciation Expense; Credit Accumulated Depreciation"
 //     },
 //     {
-//       "question": "Which of the following is an example of a scalar quantity?",
-//       "options": ["Displacement", "Force", "Mass", "Velocity"],
-//       "answer": "Mass"
+//       "question": "Which of the following is NOT a characteristic of adjusting entries?",
+//       "options": ["They are made at the end of the accounting period", "They involve one income statement and one balance sheet account", "They are used to record daily transactions", "They ensure accurate financial statements"],
+//       "answer": "They are used to record daily transactions"
 //     },
 //     {
-//       "question": "The force of attraction between two point masses is directly proportional to:",
-//       "options": [
-//         "The product of the masses",
-//         "The distance between the masses",
-//         "The square of the distance between the masses",
-//         "The velocity of the masses"
-//       ],
-//       "answer": "The product of the masses"
+//       "question": "Adjusting entries are necessary because:",
+//       "options": ["They simplify the accounting process", "Some revenues and expenses are not recorded during the period", "They replace closing entries", "They are required by tax laws"],
+//       "answer": "Some revenues and expenses are not recorded during the period"
 //     },
 //     {
-//       "question": "A car accelerates from rest to 20 m/s in 10 seconds. What is its acceleration?",
-//       "options": ["2 m/s²", "1 m/s²", "4 m/s²", "5 m/s²"],
-//       "answer": "2 m/s²"
+//       "question": "Prepaid expenses are initially recorded as:",
+//       "options": ["Expenses", "Assets", "Liabilities", "Revenues"],
+//       "answer": "Assets"
 //     },
 //     {
-//       "question": "The speed of sound in air is approximately:",
-//       "options": ["330 m/s", "500 m/s", "340 m/s", "1500 m/s"],
-//       "answer": "340 m/s"
+//       "question": "An adjusting entry for unearned revenue would involve:",
+//       "options": ["Debit Unearned Revenue; Credit Revenue", "Debit Revenue; Credit Unearned Revenue", "Debit Cash; Credit Unearned Revenue", "Debit Unearned Revenue; Credit Cash"],
+//       "answer": "Debit Unearned Revenue; Credit Revenue"
 //     },
 //     {
-//       "question": "What is the frequency of a wave with a wavelength of 2 meters and a speed of 6 m/s?",
-//       "options": ["3 Hz", "2 Hz", "4 Hz", "6 Hz"],
-//       "answer": "3 Hz"
+//       "question": "What is the purpose of closing entries?",
+//       "options": ["To adjust account balances", "To transfer temporary account balances to permanent accounts", "To record new transactions", "To prepare financial statements"],
+//       "answer": "To transfer temporary account balances to permanent accounts"
 //     },
 //     {
-//       "question": "Which of the following phenomena occurs when light passes through a prism?",
-//       "options": ["Reflection", "Refraction", "Diffraction", "Dispersion"],
-//       "answer": "Dispersion"
+//       "question": "Which of the following is a temporary account?",
+//       "options": ["Retained Earnings", "Salaries Expense", "Accumulated Depreciation", "Prepaid Insurance"],
+//       "answer": "Salaries Expense"
 //     },
 //     {
-//       "question": "A body in motion has:",
-//       "options": [
-//         "Only potential energy",
-//         "Only kinetic energy",
-//         "Both kinetic and potential energy",
-//         "Neither kinetic nor potential energy"
-//       ],
-//       "answer": "Only kinetic energy"
+//       "question": "The first step in the closing process is to close:",
+//       "options": ["Expense accounts", "Revenue accounts", "Dividends accounts", "Income Summary"],
+//       "answer": "Revenue accounts"
 //     },
 //     {
-//       "question": "The force required to stop a moving object is called:",
-//       "options": ["Impulse", "Inertia", "Friction", "Momentum"],
-//       "answer": "Impulse"
+//       "question": "Revenue accounts are closed by:",
+//       "options": ["Debiting Revenue; Crediting Income Summary", "Debiting Income Summary; Crediting Revenue", "Debiting Retained Earnings; Crediting Revenue", "Debiting Revenue; Crediting Retained Earnings"],
+//       "answer": "Debiting Revenue; Crediting Income Summary"
 //     },
 //     {
-//       "question": "Which of the following is true for a projectile in motion?",
-//       "options": [
-//         "The horizontal velocity remains constant",
-//         "The vertical velocity remains constant",
-//         "The acceleration due to gravity is zero",
-//         "Both horizontal and vertical velocities remain constant"
-//       ],
-//       "answer": "The horizontal velocity remains constant"
-//     }
+//       "question": "Expense accounts are closed by:",
+//       "options": ["Debiting Expense; Crediting Income Summary", "Debiting Income Summary; Crediting Expense", "Debiting Retained Earnings; Crediting Expense", "Debiting Expense; Crediting Retained Earnings"],
+//       "answer": "Debiting Income Summary; Crediting Expense"
+//     },
 //   ],
-//   3: [
+//   43: [
 //     {
-//       "question": "The phenomenon of bending of light as it passes from one medium to another is called:",
-//       "options": ["Reflection", "Refraction", "Diffraction", "Dispersion"],
-//       "answer": "Refraction"
+//       "question": "The Income Summary account is closed to:",
+//       "options": ["Revenue", "Expense", "Retained Earnings", "Dividends"],
+//       "answer": "Retained Earnings"
 //     },
 //     {
-//       "question": "Which of the following is a unit of energy?",
-//       "options": ["Watt", "Ampere", "Joule", "Ohm"],
-//       "answer": "Joule"
+//       "question": "Dividends are closed by:",
+//       "options": ["Debiting Dividends; Crediting Retained Earnings", "Debiting Retained Earnings; Crediting Dividends", "Debiting Income Summary; Crediting Dividends", "Debiting Dividends; Crediting Income Summary"],
+//       "answer": "Debiting Retained Earnings; Crediting Dividends"
 //     },
 //     {
-//       "question": "The term \"work\" in physics refers to:",
-//       "options": [
-//         "A force applied over a distance",
-//         "A force applied to an object",
-//         "The energy possessed by an object",
-//         "The energy required to move an object"
-//       ],
-//       "answer": "A force applied over a distance"
+//       "question": "After closing entries, the balances of temporary accounts are:",
+//       "options": ["Transferred to the next period", "Zero", "Reported on the balance sheet", "Adjusted for accruals"],
+//       "answer": "Zero"
 //     },
 //     {
-//       "question": "What does the law of universal gravitation state?",
-//       "options": [
-//         "Every mass attracts every other mass with a force proportional to the product of their masses",
-//         "Objects fall with the same acceleration regardless of mass",
-//         "The gravitational force is directly proportional to the square of the distance between two objects",
-//         "Both A and B"
-//       ],
-//       "answer": "Every mass attracts every other mass with a force proportional to the product of their masses"
+//       "question": "Closing entries ensure that:",
+//       "options": ["All accounts are adjusted", "Temporary accounts start the next period with zero balances", "Permanent accounts are reset", "Financial statements are prepared"],
+//       "answer": "Temporary accounts start the next period with zero balances"
 //     },
 //     {
-//       "question": "What is the formula for calculating the force acting on an object?",
-//       "options": ["F = m × a", "F = m × v", "F = a × v", "F = m × g"],
-//       "answer": "F = m × a"
+//       "question": "The final step in the closing process is to close:",
+//       "options": ["Revenue accounts", "Expense accounts", "Dividends", "Income Summary"],
+//       "answer": "Income Summary"
 //     },
 //     {
-//       "question": "In which type of wave do particles move parallel to the direction of wave propagation?",
-//       "options": ["Longitudinal wave", "Transverse wave", "Electromagnetic wave", "Both A and B"],
-//       "answer": "Longitudinal wave"
+//       "question": "Which of the following is recorded in the general journal?",
+//       "options": ["Daily cash transactions", "Adjusting and closing entries", "Purchase orders", "Bank reconciliations"],
+//       "answer": "Adjusting and closing entries"
 //     },
 //     {
-//       "question": "The image formed by a concave lens is:",
-//       "options": [
-//         "Real and inverted",
-//         "Virtual and upright",
-//         "Virtual and inverted",
-//         "Real and upright"
-//       ],
-//       "answer": "Virtual and upright"
+//       "question": "The general journal is used to record:",
+//       "options": ["Only revenue transactions", "Non-routine transactions", "Only expense transactions", "Routine transactions"],
+//       "answer": "Non-routine transactions"
 //     },
 //     {
-//       "question": "What is the resistance of a wire if the voltage is 10 V and the current is 2 A?",
-//       "options": ["20 Ω", "5 Ω", "12 Ω", "10 Ω"],
-//       "answer": "5 Ω"
+//       "question": "An example of a general journal entry is:",
+//       "options": ["Recording a sale on account", "Recording depreciation expense", "Posting to the ledger", "Preparing a trial balance"],
+//       "answer": "Recording depreciation expense"
 //     },
 //     {
-//       "question": "Which of the following is not an example of energy transfer?",
-//       "options": ["Work", "Heat", "Electric current", "Inertia"],
-//       "answer": "Inertia"
+//       "question": "The general journal provides:",
+//       "options": ["A summary of all ledger accounts", "A chronological record of transactions", "A list of permanent accounts", "A report of financial ratios"],
+//       "answer": "A chronological record of transactions"
 //     },
 //     {
-//       "question": "The power dissipated in a resistor is given by:",
-//       "options": ["P = IV", "P = V²/R", "P = I²R", "All of the above"],
-//       "answer": "All of the above"
+//       "question": "Which of the following is NOT typically recorded in the general journal?",
+//       "options": ["Adjusting entries", "Closing entries", "Cash sales", "Depreciation entries"],
+//       "answer": "Cash sales"
 //     },
 //     {
-//       "question": "The phenomenon where light changes direction as it passes through a narrow opening is called:",
-//       "options": ["Reflection", "Diffraction", "Refraction", "Dispersion"],
-//       "answer": "Diffraction"
+//       "question": "The balance of the Income Summary account after closing revenues and expenses represents:",
+//       "options": ["Total assets", "Net income or net loss", "Total liabilities", "Retained Earnings"],
+//       "answer": "Net income or net loss"
 //     },
 //     {
-//       "question": "The pressure at a point in a liquid depends on:",
-//       "options": [
-//         "The volume of the liquid",
-//         "The depth of the liquid",
-//         "The temperature of the liquid",
-//         "The density of the liquid"
-//       ],
-//       "answer": "The depth of the liquid"
+//       "question": "Accumulated Depreciation is a:",
+//       "options": ["Revenue account", "Contra asset account", "Liability account", "Expense account"],
+//       "answer": "Contra asset account"
 //     },
 //     {
-//       "question": "The speed of a wave is determined by:",
-//       "options": [
-//         "The frequency and the amplitude",
-//         "The wavelength and the frequency",
-//         "The frequency and the temperature",
-//         "The wavelength and the amplitude"
-//       ],
-//       "answer": "The wavelength and the frequency"
+//       "question": "Unearned revenue is classified as a:",
+//       "options": ["Liability", "Asset", "Expense", "Revenue"],
+//       "answer": "Liability"
 //     },
 //     {
-//       "question": "Which of the following is an example of a contact force?",
-//       "options": ["Gravitational force", "Magnetic force", "Frictional force", "Electrical force"],
-//       "answer": "Frictional force"
+//       "question": "The accounting cycle ends with:",
+//       "options": ["Preparing financial statements", "Closing the books", "Recording transactions", "Posting to the ledger"],
+//       "answer": "Closing the books"
 //     },
 //     {
-//       "question": "The energy of a photon is directly proportional to:",
-//       "options": ["Its velocity", "Its frequency", "Its amplitude", "Its wavelength"],
-//       "answer": "Its frequency"
+//       "question": "Which account is NOT closed at the end of the accounting period?",
+//       "options": ["Salaries Expense", "Retained Earnings", "Revenue", "Dividends"],
+//       "answer": "Retained Earnings"
 //     },
 //     {
-//       "question": "What type of mirror is used in car headlights to focus light?",
-//       "options": ["Concave mirror", "Convex mirror", "Plane mirror", "Parabolic mirror"],
-//       "answer": "Concave mirror"
+//       "question": "Adjusting entries are prepared:",
+//       "options": ["At the beginning of the period", "At the end of the period", "During the period", "Only for tax purposes"],
+//       "answer": "At the end of the period"
 //     },
 //     {
-//       "question": "A wave with a higher frequency has:",
-//       "options": [
-//         "A longer wavelength",
-//         "A shorter wavelength",
-//         "The same wavelength",
-//         "A higher speed"
-//       ],
-//       "answer": "A shorter wavelength"
+//       "question": "The purpose of closing dividends is to:",
+//       "options": ["Increase retained earnings", "Decrease retained earnings", "Record dividend payments", "Adjust the dividend account"],
+//       "answer": "Decrease retained earnings"
 //     },
 //     {
-//       "question": "The relationship between current, voltage, and resistance is given by:",
-//       "options": ["Newton's law", "Coulomb's law", "Ohm's law", "Faraday's law"],
-//       "answer": "Ohm's law"
+//       "question": "Which of the following accounts is permanent?",
+//       "options": ["Revenue", "Prepaid Insurance", "Salaries Expense", "Dividends"],
+//       "answer": "Prepaid Insurance"
 //     },
 //     {
-//       "question": "Which of the following devices is used to measure electric current?",
-//       "options": ["Ammeter", "Voltmeter", "Thermometer", "Barometer"],
-//       "answer": "Ammeter"
+//       "question": "Closing entries are prepared:",
+//       "options": ["Before adjusting entries", "After adjusting entries", "During the accounting period", "Only for corporations"],
+//       "answer": "After adjusting entries"
 //     },
 //     {
-//       "question": "What is the SI unit of frequency?",
-//       "options": ["Meter", "Hertz", "Decibel", "Joule"],
-//       "answer": "Hertz"
-//     }
+//       "question": "The Income Summary account is used to:",
+//       "options": ["Record revenues and expenses", "Summarize net income or loss before closing to Retained Earnings", "Adjust asset accounts", "Record dividends"],
+//       "answer": "Summarize net income or loss before closing to Retained Earnings"
+//     },
 //   ],
-//   4: [
+//   44: [
 //     {
-//       "question": "In which of the following types of waves do the particles move perpendicular to the direction of wave propagation?",
-//       "options": ["Longitudinal waves", "Transverse waves", "Electromagnetic waves", "Both B and C"],
-//       "answer": "Transverse waves"
+//       "question": "Which of the following is a contra account?",
+//       "options": ["Accounts Receivable", "Accumulated Depreciation", "Salaries Payable", "Revenue"],
+//       "answer": "Accumulated Depreciation"
 //     },
 //     {
-//       "question": "The energy required to raise the temperature of 1 kg of water by 1°C is called:",
-//       "options": ["Joule", "Calorie", "Watt", "Ampere"],
-//       "answer": "Calorie"
+//       "question": "The entry to close a net loss would include:",
+//       "options": ["Debiting Retained Earnings; Crediting Income Summary", "Debiting Income Summary; Crediting Retained Earnings", "Debiting Revenue; Crediting Income Summary", "Debiting Expenses; Crediting Income Summary"],
+//       "answer": "Debiting Retained Earnings; Crediting Income Summary"
 //     },
 //     {
-//       "question": "The distance between two consecutive crests or troughs of a wave is called:",
-//       "options": ["Amplitude", "Frequency", "Wavelength", "Speed"],
-//       "answer": "Wavelength"
+//       "question": "Prepaid expenses are classified as:",
+//       "options": ["Assets", "Liabilities", "Revenues", "Expenses"],
+//       "answer": "Assets"
 //     },
 //     {
-//       "question": "Which of the following is a condition for an object to be in motion?",
-//       "options": [
-//         "It must be acted upon by an unbalanced force",
-//         "It must be moving with constant velocity",
-//         "It must be in equilibrium",
-//         "It must be at rest"
-//       ],
-//       "answer": "It must be acted upon by an unbalanced force"
+//       "question": "The adjusting entry for accrued salaries includes:",
+//       "options": ["Debiting Salaries Payable; Crediting Salaries Expense", "Debiting Salaries Expense; Crediting Salaries Payable", "Debiting Cash; Crediting Salaries Expense", "Debiting Salaries Expense; Crediting Cash"],
+//       "answer": "Debiting Salaries Expense; Crediting Salaries Payable"
 //     },
 //     {
-//       "question": "In a vacuum, all electromagnetic waves travel at:",
-//       "options": ["3 × 10^8 m/s", "1 × 10^6 m/s", "3 × 10^6 m/s", "2 × 10^8 m/s"],
-//       "answer": "3 × 10^8 m/s"
+//       "question": "The purpose of the Income Summary account is to:",
+//       "options": ["Record all revenues and expenses", "Facilitate the closing of temporary accounts", "Adjust permanent accounts", "Record dividends"],
+//       "answer": "Facilitate the closing of temporary accounts"
 //     },
 //     {
-//       "question": "The unit of electrical resistance is:",
-//       "options": ["Volt", "Ohm", "Ampere", "Watt"],
-//       "answer": "Ohm"
+//       "question": "Which of the following accounts is closed to Retained Earnings?",
+//       "options": ["Revenue", "Expense", "Income Summary", "Dividends"],
+//       "answer": "Income Summary"
 //     },
 //     {
-//       "question": "What is the force exerted by a 10 kg object resting on the Earth's surface?",
-//       "options": ["10 N", "100 N", "98 N", "1000 N"],
-//       "answer": "98 N"
+//       "question": "The entry to close revenue accounts includes:",
+//       "options": ["Debiting Revenue; Crediting Income Summary", "Debiting Income Summary; Crediting Revenue", "Debiting Retained Earnings; Crediting Revenue", "Debiting Revenue; Crediting Retained Earnings"],
+//       "answer": "Debiting Revenue; Crediting Income Summary"
 //     },
 //     {
-//       "question": "Which of the following is true for a longitudinal wave?",
-//       "options": [
-//         "The particles of the medium move in a direction perpendicular to the wave motion",
-//         "The particles of the medium move parallel to the wave motion",
-//         "Longitudinal waves do not carry energy",
-//         "Longitudinal waves do not have a wavelength"
-//       ],
-//       "answer": "The particles of the medium move parallel to the wave motion"
+//       "question": "The entry to close expense accounts includes:",
+//       "options": ["Debiting Expense; Crediting Income Summary", "Debiting Income Summary; Crediting Expense", "Debiting Retained Earnings; Crediting Expense", "Debiting Expense; Crediting Retained Earnings"],
+//       "answer": "Debiting Income Summary; Crediting Expense"
 //     },
 //     {
-//       "question": "The resistance of a conductor increases with:",
-//       "options": [
-//         "Decreasing temperature",
-//         "Increasing length",
-//         "Decreasing cross-sectional area",
-//         "Both B and C"
-//       ],
-//       "answer": "Both B and C"
+//       "question": "The balance in the Income Summary account before it is closed represents:",
+//       "options": ["Total revenues", "Total expenses", "Net income or net loss", "Dividends"],
+//       "answer": "Net income or net loss"
 //     },
 //     {
-//       "question": "What is the principal focus of a convex lens?",
-//       "options": [
-//         "The point where parallel rays of light meet after passing through the lens",
-//         "The point where parallel rays of light diverge after passing through the lens",
-//         "The point where the lens is thicker",
-//         "The point where the light enters the lens"
-//       ],
-//       "answer": "The point where parallel rays of light meet after passing through the lens"
+//       "question": "The entry to close a net income to Retained Earnings includes:",
+//       "options": ["Debiting Income Summary; Crediting Retained Earnings", "Debiting Retained Earnings; Crediting Income Summary", "Debiting Revenue; Crediting Income Summary", "Debiting Expenses; Crediting Income Summary"],
+//       "answer": "Debiting Income Summary; Crediting Retained Earnings"
 //     },
 //     {
-//       "question": "In a sound wave, the region of compression has:",
-//       "options": ["High density", "Low density", "No density", "Same density as the rest of the medium"],
-//       "answer": "High density"
+//       "question": "Which of the following is NOT a temporary account?",
+//       "options": ["Revenue", "Salaries Expense", "Accumulated Depreciation", "Dividends"],
+//       "answer": "Accumulated Depreciation"
 //     },
 //     {
-//       "question": "What is the force that resists the motion of an object through a fluid called?",
-//       "options": ["Friction", "Tension", "Drag", "Buoyancy"],
-//       "answer": "Drag"
+//       "question": "The adjusting entry for depreciation includes:",
+//       "options": ["Debiting Accumulated Depreciation; Crediting Depreciation Expense", "Debiting Depreciation Expense; Crediting Accumulated Depreciation", "Debiting Cash; Crediting Depreciation Expense", "Debiting Depreciation Expense; Crediting Cash"],
+//       "answer": "Debiting Depreciation Expense; Crediting Accumulated Depreciation"
 //     },
 //     {
-//       "question": "The speed of a car moving at 72 km/h is equal to:",
-//       "options": ["72 m/s", "20 m/s", "18 m/s", "10 m/s"],
-//       "answer": "20 m/s"
+//       "question": "The purpose of adjusting entries is to ensure that:",
+//       "options": ["All accounts are closed", "Financial statements are accurate", "Dividends are recorded", "Temporary accounts are reset"],
+//       "answer": "Financial statements are accurate"
 //     },
 //     {
-//       "question": "The pressure exerted by a gas on the walls of its container is caused by:",
-//       "options": [
-//         "The force of gravity",
-//         "The motion of molecules colliding with the container walls",
-//         "The temperature of the gas",
-//         "The volume of the gas"
-//       ],
-//       "answer": "The motion of molecules colliding with the container walls"
+//       "question": "The entry to record accrued revenue includes:",
+//       "options": ["Debiting Revenue; Crediting Cash", "Debiting Accounts Receivable; Crediting Revenue", "Debiting Cash; Crediting Revenue", "Debiting Revenue; Crediting Accounts Receivable"],
+//       "answer": "Debiting Accounts Receivable; Crediting Revenue"
 //     },
 //     {
-//       "question": "Which of the following does not change the acceleration due to gravity?",
-//       "options": [
-//         "Height above the Earth's surface",
-//         "Latitude",
-//         "Mass of the object",
-//         "Altitude"
-//       ],
-//       "answer": "Mass of the object"
+//       "question": "The final financial statements are prepared:",
+//       "options": ["Before adjusting entries", "After adjusting and closing entries", "During the accounting period", "Only at the beginning of the period"],
+//       "answer": "After adjusting and closing entries"
 //     },
-//     {
-//       "question": "The magnetic field around a current-carrying conductor is:",
-//       "options": [
-//         "Stronger farther from the conductor",
-//         "Weakest at the center of the conductor",
-//         "Stronger the closer you get to the conductor",
-//         "Nonexistent"
-//       ],
-//       "answer": "Stronger the closer you get to the conductor"
-//     },
-//     {
-//       "question": "The motion of a satellite in orbit is due to the balance between:",
-//       "options": [
-//         "Its velocity and the gravitational pull of the Earth",
-//         "The satellite's weight and the gravitational pull of the Earth",
-//         "The centrifugal force and the centripetal force",
-//         "Both A and C"
-//       ],
-//       "answer": "Both A and C"
-//     },
-//     {
-//       "question": "Which of the following is true about the specific heat capacity of water?",
-//       "options": [
-//         "It is very low",
-//         "It is very high",
-//         "It is equal to the specific heat capacity of air",
-//         "It is zero"
-//       ],
-//       "answer": "It is very high"
-//     },
-//     {
-//       "question": "The color of an object is determined by:",
-//       "options": [
-//         "The wavelength of light it emits",
-//         "The wavelength of light it absorbs",
-//         "The temperature of the object",
-//         "Both A and B"
-//       ],
-//       "answer": "The wavelength of light it absorbs"
-//     },
-//     {
-//       "question": "What happens when light enters a denser medium?",
-//       "options": [
-//         "It bends away from the normal",
-//         "It bends towards the normal",
-//         "It is reflected",
-//         "It passes straight through"
-//       ],
-//       "answer": "It bends towards the normal"
-//     }
 //   ],
-//   5: [
-//     {
-//       "question": "The law of reflection states that:",
-//       "options": [
-//         "The angle of incidence is equal to the angle of refraction",
-//         "The angle of incidence is equal to the angle of reflection",
-//         "The angle of refraction is greater than the angle of incidence",
-//         "The angle of incidence is smaller than the angle of reflection"
-//       ],
-//       "answer": "The angle of incidence is equal to the angle of reflection"
-//     },
-//     {
-//       "question": "Which of the following is not a part of the electromagnetic spectrum?",
-//       "options": ["Ultraviolet rays", "Radio waves", "Sound waves", "X-rays"],
-//       "answer": "Sound waves"
-//     },
-//     {
-//       "question": "A body is said to be in motion if:",
-//       "options": [
-//         "Its position is changing with respect to a reference point",
-//         "It is accelerating",
-//         "It is at rest",
-//         "It is not affected by any force"
-//       ],
-//       "answer": "Its position is changing with respect to a reference point"
-//     },
-//     {
-//       "question": "The energy of an object in motion is called:",
-//       "options": ["Potential energy", "Kinetic energy", "Heat energy", "Internal energy"],
-//       "answer": "Kinetic energy"
-//     },
-//     {
-//       "question": "A wave with a larger amplitude has:",
-//       "options": ["A higher frequency", "A lower frequency", "More energy", "Less energy"],
-//       "answer": "More energy"
-//     },
-//     {
-//       "question": "The velocity of a body is:",
-//       "options": [
-//         "Always constant",
-//         "Always increasing",
-//         "The rate of change of displacement",
-//         "The rate of change of distance"
-//       ],
-//       "answer": "The rate of change of displacement"
-//     },
-//     {
-//       "question": "What is the unit of electrical energy?",
-//       "options": ["Volt", "Joule", "Watt", "Ohm"],
-//       "answer": "Joule"
-//     },
-//     {
-//       "question": "The process by which a solid turns directly into a gas is called:",
-//       "options": ["Sublimation", "Condensation", "Evaporation", "Freezing"],
-//       "answer": "Sublimation"
-//     },
-//     {
-//       "question": "The rate of change of velocity is:",
-//       "options": ["Acceleration", "Speed", "Force", "Momentum"],
-//       "answer": "Acceleration"
-//     },
-//     {
-//       "question": "What is the main cause of tides on Earth?",
-//       "options": [
-//         "Wind",
-//         "Earth's rotation",
-//         "Gravitational pull of the Moon and Sun",
-//         "Earth's shape"
-//       ],
-//       "answer": "Gravitational pull of the Moon and Sun"
-//     },
-//     {
-//       "question": "The force required to stop a moving object is called:",
-//       "options": ["Impulse", "Friction", "Momentum", "Work"],
-//       "answer": "Impulse"
-//     },
-//     {
-//       "question": "The temperature at which the kinetic energy of particles is zero is:",
-//       "options": ["0°C", "273 K", "-273°C", "0 K"],
-//       "answer": "0 K"
-//     },
-//     {
-//       "question": "A battery converts chemical energy into:",
-//       "options": ["Electrical energy", "Kinetic energy", "Light energy", "Heat energy"],
-//       "answer": "Electrical energy"
-//     },
-//     {
-//       "question": "The law of inertia states that:",
-//       "options": [
-//         "An object will remain at rest unless acted upon by an external force",
-//         "An object will move in a straight line unless acted upon by an external force",
-//         "An object will remain at rest or in uniform motion unless acted upon by an external force",
-//         "Both A and B"
-//       ],
-//       "answer": "An object will remain at rest or in uniform motion unless acted upon by an external force"
-//     },
-//     {
-//       "question": "The force of gravity is:",
-//       "options": [
-//         "Directly proportional to the mass of an object",
-//         "Directly proportional to the distance between objects",
-//         "Inversely proportional to the mass of an object",
-//         "Inversely proportional to the distance between objects"
-//       ],
-//       "answer": "Directly proportional to the mass of an object"
-//     },
-//     {
-//       "question": "The bending of light around obstacles is called:",
-//       "options": ["Diffraction", "Refraction", "Reflection", "Dispersion"],
-//       "answer": "Diffraction"
-//     },
-//     {
-//       "question": "The phenomenon where sound waves bounce back after hitting a surface is called:",
-//       "options": ["Refraction", "Diffraction", "Reflection", "Absorption"],
-//       "answer": "Reflection"
-//     },
-//     {
-//       "question": "A force of 10 N is applied to an object of mass 2 kg. What is the acceleration?",
-//       "options": ["5 m/s²", "2 m/s²", "10 m/s²", "0.5 m/s²"],
-//       "answer": "5 m/s²"
-//     },
-//     {
-//       "question": "What is the power consumed by an electric device operating at a voltage of 12 V and drawing a current of 2 A?",
-//       "options": ["24 W", "6 W", "36 W", "12 W"],
-//       "answer": "24 W"
-//     },
-//     {
-//       "question": "In a magnetic field, the direction of force on a charged particle depends on:",
-//       "options": [
-//         "The charge of the particle",
-//         "The velocity of the particle",
-//         "The direction of the magnetic field",
-//         "All of the above"
-//       ],
-//       "answer": "All of the above"
-//     }
-//   ]
 // };
 // Future<void> dataEntry() async {
 //   // Reference to Firestore collection
@@ -773,7 +445,7 @@ Future<void> _backgroundMessageHandler(RemoteMessage message) async {
 //   // Upload all pages under the 'english' document in the 'mcqs' collection
 //   await _firestore
 //       .collection('mcqs')
-//       .doc('physics')
+//       .doc('accounts jobs')
 //       .set(dataToStore, SetOptions(merge: true));
 
 //   print("All pages uploaded successfully.");

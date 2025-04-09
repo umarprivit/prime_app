@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:prime_app/controllers/chapter_controller.dart';
 import 'package:prime_app/controllers/mcqs_controller.dart';
 import 'package:prime_app/routes.dart';
 import 'package:prime_app/widgets/dashboard_widgets/library_container.dart';
@@ -14,6 +15,7 @@ class McqsSubjectScreen extends StatefulWidget {
 
 class _McqsSubjectScreenState extends State<McqsSubjectScreen> {
   final McqsController con = Get.put(McqsController());
+  ChapterController con1 = Get.find<ChapterController>();
 
   @override
   void initState() {
@@ -32,7 +34,7 @@ class _McqsSubjectScreenState extends State<McqsSubjectScreen> {
             Get.back();
           },
         ),
-        title: Text("MCQs"),
+        title: Text(con1.selectedCourse.courseName),
       ),
       body: Obx(
         () => con.isSubjectLoading.value
@@ -43,7 +45,7 @@ class _McqsSubjectScreenState extends State<McqsSubjectScreen> {
                     itemCount: con.subjects.length,
                     itemBuilder: (context, index) {
                       return LibraryContainer(
-                          label: "${con.subjects[index]}".capitalizeFirst!,
+                          label: "${con.subjects[index]}".capitalize!,
                           onTap: () {
                             con.selectedPageNumber.value = 1;
                             con.selectedSubject.value = con.subjects[index];

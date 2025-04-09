@@ -24,7 +24,7 @@ class McqsController extends GetxController {
         totalPageNumber.value = data.toString();
         print(data);
       } else {
-        totalPageNumber.value = selectedPageNumber.value.toString();
+        totalPageNumber.value = "55";
       }
     } catch (e) {
       print(e);
@@ -89,7 +89,7 @@ class McqsController extends GetxController {
       mcqs.clear();
 
       isMcqsLoading.value = true;
-      if(selectedSubject.value == "error detection"){
+      if (selectedSubject.value == "error detection") {
         selectedSubject.value = "error Detection";
       }
       final data = await FirestoreService().getFieldFromDocument(

@@ -1,17 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 import 'package:prime_app/config/config.dart';
 import 'package:prime_app/controllers/mcqs_controller.dart';
 import 'package:prime_app/widgets/dashboard_widgets/mcqslist_skelton.dart';
 
-class McqsListScreen extends StatelessWidget {
+class McqsListScreen extends StatefulWidget {
   McqsListScreen({super.key});
+
+  @override
+  State<McqsListScreen> createState() => _McqsListScreenState();
+}
+
+class _McqsListScreenState extends State<McqsListScreen> {
   final McqsController con = Get.put(McqsController());
+
+  bool isFullScreen = false;
+
+  final _noScreenshot = NoScreenshot.instance;
+
+  Future<void> _disableScreenshot() async {
+    bool result = await _noScreenshot.screenshotOff();
+    debugPrint('Screenshot Off: $result');
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _disableScreenshot();
+  }
 
   @override
   Widget build(BuildContext context) {
     con.getAllMcqs();
     con.getTotalPageNumber();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -87,8 +111,7 @@ class McqsListScreen extends StatelessWidget {
                                   ),
                                   ...con.mcqs[index].options.map((e) {
                                     return Text(
-                                      //index of e
-                                      "${con.mcqs[index].options.indexOf(e) + 1}. $e",
+                                      "${String.fromCharCode(65 + con.mcqs[index].options.indexOf(e))}. $e", // Convert index to A, B, C, D
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: e == con.mcqs[index].correct

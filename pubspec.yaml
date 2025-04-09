@@ -44,13 +44,16 @@ dependencies:
   flutter_inappwebview:
   firebase_core: ^3.12.1
   cloud_firestore: ^5.6.5
-  device_info_plus: ^11.3.0
+
   shared_preferences: ^2.5.2
   shimmer: ^3.0.0
   flutter_local_notifications: ^18.0.1
   firebase_messaging: ^15.2.4
   app_settings: ^5.2.0
   intl: ^0.20.2
+  no_screenshot: ^0.3.1
+  uuid: ^4.5.1
+
 
 dev_dependencies:
   flutter_test:

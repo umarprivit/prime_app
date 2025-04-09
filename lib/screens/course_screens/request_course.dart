@@ -5,6 +5,7 @@ import 'package:prime_app/controllers/dashboard_controller.dart';
 import 'package:prime_app/controllers/loginScreen_controller.dart';
 import 'package:prime_app/routes.dart';
 import 'package:prime_app/screens/starting_screens/login_screen.dart';
+import 'package:prime_app/service/shared_preferences.dart';
 import 'package:prime_app/widgets/appButton.dart';
 import 'package:prime_app/widgets/loading_widget.dart';
 
@@ -82,11 +83,6 @@ class RequestCourse extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.attach_money,
-                                color: Theme.of(context).primaryColor,
-                                size: 30,
-                              ),
                               SizedBox(width: 10),
                               Text(
                                 "Only for ${con.selectedSkill.value.price} PKR ",
@@ -172,7 +168,7 @@ class RequestCourse extends StatelessWidget {
                                             color: Colors.amber, size: 30),
                                         SizedBox(width: 10),
                                         Text(
-                                          "Go Premium",
+                                          "Pay now to buy",
                                           style: TextStyle(
                                               fontFamily: Config.FONT_FAMILY,
                                               fontWeight: FontWeight.w700,
@@ -191,7 +187,7 @@ class RequestCourse extends StatelessWidget {
                   margin: EdgeInsets.only(top: 32),
                   child: Image.asset(
                     "assets/images/request_robot.png",
-                    scale: 1.8,
+                    scale: 1,
                   ),
                 ),
               ],
@@ -202,8 +198,9 @@ class RequestCourse extends StatelessWidget {
     );
   }
 
-  void infoGatheringBottomSheet(BuildContext context) {
+  Future<void> infoGatheringBottomSheet(BuildContext context) async {
     con.cityController.text = con.selectedSkill.value.price!;
+    con.nameController.text = SharedPrefService().getUserName()!;
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.all(20),
@@ -218,7 +215,7 @@ class RequestCourse extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "Add Topic",
+                "Add Payment Detail",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
@@ -227,14 +224,15 @@ class RequestCourse extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              _buildTextField(con.nameController, "Name"),
+              _buildTextField(con.nameController, "Name",
+                  readOnly: con.nameController.text.isNotEmpty),
               const SizedBox(height: 20),
               _buildTextField(con.phoneNumberController, "Phone Number"),
               const SizedBox(height: 20),
               _buildTextField(con.cityController, "Price",
                   readOnly: true), // Make price read-only
               const SizedBox(height: 20),
-              _buildTextField(con.DOBController, "Transaction ID"),
+              _buildTextField(con.DOBController, "Fee Transaction ID"),
               const SizedBox(height: 20),
               Padding(
                 padding:
@@ -260,6 +258,8 @@ class RequestCourse extends StatelessWidget {
                         con.phoneNumberController.text.isNotEmpty) {
                       Get.back();
                       con.requestCourse();
+                      await SharedPrefService()
+                          .setUserName(con.nameController.text);
                     } else {
                       Get.snackbar("Error", "Please fill all the fields",
                           backgroundColor: Colors.red);
@@ -309,16 +309,5 @@ class RequestCourse extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildButton(String text, context, onpressed) {
-    return Container(
-        height: 56,
-        width: double.infinity,
-        margin: EdgeInsets.only(left: 22, right: 22),
-        child: Appbutton(
-          text: text,
-          onPressed: onpressed,
-        ));
   }
 }

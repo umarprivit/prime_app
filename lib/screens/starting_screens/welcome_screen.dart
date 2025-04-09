@@ -142,29 +142,31 @@ class WelcomeScreen extends StatelessWidget {
       {required String text,
       required VoidCallback onPressed,
       RxBool? isLoading}) {
-    return Container(
-      height: 56,
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 22),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(7),
+    return Obx(
+      () => Container(
+        height: 56,
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 22),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7),
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
           ),
-          backgroundColor: Theme.of(context).primaryColor,
-        ),
-        onPressed: onPressed,
-        child: (isLoading != null && isLoading.value)
-            ? const BarLoading(color: Colors.white, barHeight: 4, barWidth: 6)
-            : Text(
-                text,
-                style: TextStyle(
-                  fontFamily: Config.FONT_FAMILY,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  fontSize: 17,
+          onPressed: onPressed,
+          child: (isLoading != null && isLoading.value)
+              ? const BarLoading(color: Colors.white, barHeight: 4, barWidth: 6)
+              : Text(
+                  text,
+                  style: TextStyle(
+                    fontFamily: Config.FONT_FAMILY,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontSize: 17,
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

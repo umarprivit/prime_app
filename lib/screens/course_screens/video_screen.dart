@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 import 'package:prime_app/config/config.dart';
 import 'package:prime_app/controllers/chapter_controller.dart';
 import 'package:prime_app/controllers/video_controller.dart';
@@ -17,6 +18,7 @@ class YouTubePlayerScreen extends StatefulWidget {
 class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
   final VideoController con = Get.find<VideoController>();
   final ChapterController con1 = Get.put(ChapterController());
+  final _noScreenshot = NoScreenshot.instance;
 
   bool isFullScreen = false;
 
@@ -24,7 +26,7 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
   void initState() {
     super.initState();
     con.initializePlayer();
-
+    _disableScreenshot();
     // Listen for fullscreen changes
     con.playerController.addListener(() {
       if (con.playerController.value.isFullScreen != isFullScreen) {
@@ -35,8 +37,16 @@ class _YouTubePlayerScreenState extends State<YouTubePlayerScreen> {
     });
   }
 
+  //turn off screenshot
+  Future<void> _disableScreenshot() async {
+    bool result = await _noScreenshot.screenshotOff();
+    debugPrint('Screenshot Off: $result');
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Disable screenshot
+
     return Scaffold(
       appBar: isFullScreen
           ? null
