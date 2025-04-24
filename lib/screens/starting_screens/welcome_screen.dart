@@ -20,7 +20,7 @@ class WelcomeScreen extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
+                begin: Alignment.bottomLeft,  
                 end: Alignment.topRight,
                 stops: [0.31, 1],
                 colors: [
